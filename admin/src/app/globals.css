@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  direction: rtl;
+}
+
+body {
+  font-family: var(--font-body, IRANSansX, Tahoma, sans-serif);
+  background-color: #F1F5F9;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading, Kalameh, IRANSansX, sans-serif);
+}

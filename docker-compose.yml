@@ -1,0 +1,179 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: necoll-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: necoll
+      POSTGRES_PASSWORD: necoll_secret
+      POSTGRES_DB: necoll_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U necoll -d necoll_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: necoll-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: necoll-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: necoll_minio
+      MINIO_ROOT_PASSWORD: necoll_minio_secret
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  minio-init:
+    image: minio/mc:latest
+    container_name: necoll-minio-init
+    depends_on:
+      minio:
+        condition: service_started
+    entrypoint: >
+      /bin/sh -c "
+      sleep 3;
+      mc alias set necoll http://minio:9000 necoll_minio necoll_minio_secret;
+      mc mb necoll/necoll-uploads --ignore-existing;
+      mc anonymous set download necoll/necoll-uploads;
+      echo 'MinIO bucket ready';
+      "
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: necoll-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      DATABASE_URL: postgresql://necoll:necoll_secret@postgres:5432/necoll_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: necoll_jwt_super_secret_change_in_production
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: necoll_minio
+      MINIO_SECRET_KEY: necoll_minio_secret
+      MINIO_BUCKET: necoll-uploads
+      MINIO_PUBLIC_URL: http://localhost:9000
+      CORS_ORIGIN: http://localhost:3011
+      SITE_URL: http://localhost:3011
+      PRISMA_ENGINES_MIRROR: https://registry.npmmirror.com/-/binary/prisma
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 90s
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+
+  store:
+    build:
+      context: ./store
+      dockerfile: Dockerfile
+    container_name: necoll-store
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3011/api
+      NEXT_PUBLIC_SITE_URL: http://localhost:3011
+      API_INTERNAL_URL: http://backend:4000/api
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    volumes:
+      - ./store/src:/app/src
+      - ./store/public:/app/public
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: necoll-admin
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3011/api
+      NEXT_PUBLIC_SITE_URL: http://localhost:3011
+      API_INTERNAL_URL: http://backend:4000/api
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/admin"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    volumes:
+      - ./admin/src:/app/src
+
+  nginx:
+    image: nginx:alpine
+    container_name: necoll-nginx
+    restart: unless-stopped
+    ports:
+      - "3011:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+      store:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+
+  adminer:
+    image: adminer:latest
+    container_name: necoll-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
