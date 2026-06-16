@@ -24,8 +24,8 @@ async function main() {
     // General
     {
       key: 'site_name',
-      value: { fa: 'نکال', en: 'necoll' },
-      defaultValue: { fa: 'نکال', en: 'necoll' },
+      value: { fa: 'نکال', en: 'Necoll' },
+      defaultValue: { fa: 'نکال', en: 'Necoll' },
       category: ConfigCategory.GENERAL,
       layer: ConfigLayer.SYSTEM,
       label: 'نام سایت',

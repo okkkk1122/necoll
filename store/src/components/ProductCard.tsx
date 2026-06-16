@@ -78,7 +78,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
 
-    <Link href={`/products/${product.slug}`} className="card-fashion card-fashion-glow block group">
+    <Link href={`/products/${product.slug}`} className="card-fashion block group">
 
       <div className="relative aspect-[3/4] overflow-hidden">
 

@@ -33,7 +33,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="z-50">
       {config.announcement_bar?.enabled !== false && config.announcement_bar?.text?.fa && (
         <div className="announcement-bar">
           {config.announcement_bar.link ? (
@@ -46,7 +46,7 @@ export default function Header() {
         </div>
       )}
 
-      <div className="glass border-b border-[var(--color-border-light)] site-header-shell">
+      <div className="site-header border-b border-[var(--color-border-light)]">
         <div className="container mx-auto px-3 sm:px-4 md:px-8 max-w-full">
           {/* Mobile & tablet header — logo absolutely centered */}
           <div className="relative flex items-center justify-between h-[60px] sm:h-[68px] lg:hidden">
@@ -60,7 +60,7 @@ export default function Header() {
 
             <div className="header-logo-center pointer-events-none absolute inset-0 flex items-center justify-center z-20">
               <div className="pointer-events-auto">
-                <Logo size="sm" variant="header" showText={false} />
+                <Logo size="sm" showText />
               </div>
             </div>
 
@@ -96,7 +96,7 @@ export default function Header() {
               })}
             </nav>
 
-            <Logo size="md" variant="default" />
+            <Logo size="md" showText />
 
             <div className="flex items-center gap-1 flex-1 justify-end">
               <nav className="flex items-center gap-8">
@@ -114,7 +114,7 @@ export default function Header() {
                 })}
               </nav>
 
-              <div className="flex items-center gap-0.5 mr-4 pr-4 border-r border-[var(--color-border-light)]">
+              <div className="flex items-center gap-0.5 mr-4 pr-4 border-r border-[var(--color-border-light)] hidden xl:flex">
                 {activeSocials.slice(0, 3).map(([key, url]) => {
                   const meta = getSocialMeta(key);
                   return (
@@ -168,7 +168,7 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden glass border-b border-[var(--color-border-light)] max-h-[70vh] overflow-y-auto">
+        <div className="lg:hidden border-b border-[var(--color-border-light)] bg-[var(--color-header)] max-h-[70vh] overflow-y-auto">
           <nav className="container mx-auto px-4 py-4 sm:py-6 space-y-1">
             {navigation.map((item) => {
               const isActive = pathname === item.url;

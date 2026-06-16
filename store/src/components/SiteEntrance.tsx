@@ -1,20 +1,14 @@
 'use client';
 
-import { useConfig } from '@/lib/config-context';
-import { resolveLogoUrl } from '@/lib/media';
-import Image from 'next/image';
 import { useEffect, useState, type CSSProperties } from 'react';
+import Logo from './Logo';
 
 const INTRO_KEY = 'necal_intro_seen';
 
 export default function SiteEntrance() {
-  const config = useConfig();
   const [phase, setPhase] = useState<'hidden' | 'active' | 'exit'>('hidden');
 
-  const siteNameFa = config.site_name?.fa || 'نکال';
-  const siteNameEn = config.site_name?.en || 'necoll';
   const tagline = 'Women\'s Fashion Boutique';
-  const logoSrc = resolveLogoUrl(config.site_logo);
 
   useEffect(() => {
     try {
@@ -75,32 +69,10 @@ export default function SiteEntrance() {
       <div className="site-entrance__content">
         <p className="site-entrance__eyebrow font-nav">Welcome to</p>
 
-        <div className="site-entrance__logo-wrap">
-          <div className="site-entrance__logo-orbit" />
-          <div className="site-entrance__logo-ring">
-            <div className="site-entrance__logo">
-              <Image
-                src={logoSrc}
-                alt={siteNameFa}
-                fill
-                className="object-cover"
-                priority
-                sizes="140px"
-                unoptimized
-              />
-            </div>
-          </div>
+        <div className="site-entrance__brand-logo">
+          <Logo size="splash" showText linkToHome={false} className="justify-center" />
         </div>
 
-        <h1 className="site-entrance__brand font-heading">
-          {siteNameFa.split('').map((char, i) => (
-            <span key={i} className="site-entrance__brand-char" style={{ '--ci': i } as CSSProperties}>
-              {char}
-            </span>
-          ))}
-        </h1>
-
-        <p className="site-entrance__brand-en">{siteNameEn}</p>
         <p className="site-entrance__tagline font-nav">{tagline}</p>
 
         <div className="site-entrance__progress">

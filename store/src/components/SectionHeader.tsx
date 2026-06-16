@@ -48,15 +48,13 @@ export default function SectionHeader({
 
     return (
 
-      <div className="text-center mb-10 md:mb-14 section-header-ornament">
+      <div className="text-center mb-10 md:mb-14">
 
         {label && <p className="fashion-label mb-3">{label}</p>}
 
         <h2 className="section-title font-heading">{title}</h2>
 
-        <div className="fashion-divider" />
-
-        {subtitle && <p className="section-subtitle">{subtitle}</p>}
+        {subtitle && <p className="section-subtitle mt-2">{subtitle}</p>}
 
         {linkHref && linkText && (
 

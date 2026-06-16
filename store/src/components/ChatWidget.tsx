@@ -2,7 +2,7 @@
 
 import { useConfig } from '@/lib/config-context';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { MessageCircle, X, Send, Bot, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Send, Bot } from 'lucide-react';
 import { getClientAPI } from '@/lib/api';
 import Link from 'next/link';
 
@@ -101,9 +101,9 @@ export default function ChatWidget() {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="chat-widget-fab fixed z-40 shadow-lg flex items-center justify-center text-white transition-all hover:scale-105 chat-fab-glow"
+        className="chat-widget-fab fixed z-40 flex items-center justify-center text-white transition-opacity hover:opacity-90"
         style={{
-          background: 'linear-gradient(135deg, var(--color-blue-deep) 0%, var(--color-accent) 100%)',
+          background: 'var(--color-blue-deep)',
           borderRadius: 'var(--border-radius-lg)',
           width: '3.25rem',
           height: '3.25rem',
@@ -114,19 +114,17 @@ export default function ChatWidget() {
       </button>
 
       {open && (
-        <div className="chat-widget-panel fixed z-40 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-[var(--color-border-light)] chat-panel-glow">
+        <div className="chat-widget-panel fixed z-40 rounded-xl flex flex-col overflow-hidden border border-[var(--color-border-light)] bg-[var(--color-surface)] shadow-md">
           <div
-            className="px-4 sm:px-5 py-3 sm:py-4 text-white flex items-center gap-3 shrink-0"
-            style={{ background: 'linear-gradient(135deg, var(--color-blue-deep) 0%, var(--color-primary) 55%, var(--color-accent) 100%)' }}
+            className="px-4 py-3 text-white flex items-center gap-3 shrink-0"
+            style={{ background: 'var(--color-blue-deep)' }}
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/20 flex items-center justify-center ring-1 ring-white/25">
+            <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center">
               <Bot size={20} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-heading font-semibold text-sm sm:text-base">دستیار نکال</p>
-              <p className="text-[10px] sm:text-xs text-white/70 flex items-center gap-1">
-                <Sparkles size={11} /> پاسخ‌دهی هوشمند با اطلاعات سایت
-              </p>
+              <p className="font-heading font-semibold text-sm">دستیار نکال</p>
+              <p className="text-[10px] text-white/75">پاسخ‌دهی هوشمند</p>
             </div>
             <button
               onClick={() => setOpen(false)}
@@ -192,7 +190,7 @@ export default function ChatWidget() {
             <button
               onClick={() => sendMessage()}
               disabled={loading}
-              className="p-2.5 sm:p-3 rounded-xl text-white disabled:opacity-50 shrink-0 transition-transform hover:scale-105 active:scale-95"
+              className="p-2.5 sm:p-3 rounded-lg text-white disabled:opacity-50 shrink-0"
               style={{ background: 'var(--color-blue-deep)' }}
               aria-label="ارسال"
             >

@@ -74,7 +74,7 @@ export default function MobileBottomNav() {
                   </span>
                 )}
               </div>
-              <span className="text-[9px] tracking-wider uppercase">{label}</span>
+              <span className="text-[9px]">{label}</span>
             </Link>
           );
         })}

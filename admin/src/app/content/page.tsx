@@ -40,7 +40,7 @@ export default function ContentManagerPage() {
 
   useEffect(() => {
     Promise.all([
-      loadSetting('site_name', { fa: 'نکال', en: 'necoll' }),
+      loadSetting('site_name', { fa: 'نکال', en: 'Necoll' }),
       loadSetting('site_description', { fa: '', en: '' }),
       loadSetting('site_logo', '/logo.png'),
       loadSetting('announcement_bar', { enabled: true, text: { fa: '', en: '' }, link: '' }),

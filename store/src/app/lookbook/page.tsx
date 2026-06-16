@@ -17,9 +17,8 @@ export default async function LookbookPage() {
       <div className="text-center py-12 md:py-16 px-4">
         <p className="fashion-label mb-3">Lookbook</p>
         <h1 className="fashion-title">{lookbook?.pageTitle?.fa || 'لوک‌بوک'}</h1>
-        <div className="fashion-divider" />
         {lookbook?.pageSubtitle?.fa && (
-          <p className="text-[var(--color-text-muted)] text-sm font-light tracking-wide">{lookbook.pageSubtitle.fa}</p>
+          <p className="text-[var(--color-text-muted)] text-sm mt-2">{lookbook.pageSubtitle.fa}</p>
         )}
       </div>
       <LookbookGrid showHeader={false} />

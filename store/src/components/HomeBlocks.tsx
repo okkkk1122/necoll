@@ -11,23 +11,9 @@ import NewsletterForm from './NewsletterForm';
 import ModuleGate from './ModuleGate';
 import ParallaxSection from './ParallaxSection';
 import ParallaxHero from './ParallaxHero';
-import ParallaxDivider from './ParallaxDivider';
 import Link from 'next/link';
 import { Truck, Newspaper, Mail, ArrowLeft } from 'lucide-react';
 import { resolveMediaUrl } from '@/lib/media';
-
-const PARALLAX_META: Record<
-  string,
-  { pattern?: 'dress' | 'fabric' | 'arcs' | 'editorial' | 'none'; patternPosition?: 'left' | 'right' | 'both'; tinted?: boolean }
-> = {
-  categories: { pattern: 'dress', patternPosition: 'left', tinted: true },
-  featured_products: { pattern: 'fabric', patternPosition: 'right' },
-  lookbook: { pattern: 'editorial', patternPosition: 'both' },
-  banner: { pattern: 'arcs', patternPosition: 'left' },
-  new_arrivals: { pattern: 'dress', patternPosition: 'right', tinted: true },
-  blog_posts: { pattern: 'fabric', patternPosition: 'left', tinted: true },
-  newsletter: { pattern: 'arcs', patternPosition: 'both' },
-};
 
 interface Product {
   id: string;
@@ -155,17 +141,15 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
       <ScrollReveal direction="up">
         <section className="page-container-wide py-6 sm:py-8 md:py-12">
           <div className="editorial-banner relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-blue-pale)] via-[var(--color-accent)]/25 to-[var(--color-blue-light)]/40" />
             <div className="relative">
-              {banner?.label?.fa && <p className="fashion-label mb-4">{banner.label.fa}</p>}
-              <h2 className="fashion-title text-3xl md:text-4xl mb-4">{banner?.title?.fa || ''}</h2>
-              <div className="fashion-divider" />
+              {banner?.label?.fa && <p className="fashion-label mb-3">{banner.label.fa}</p>}
+              <h2 className="fashion-title text-2xl md:text-3xl mb-3">{banner?.title?.fa || ''}</h2>
               {banner?.subtitle?.fa && (
-                <p className="text-[var(--color-text-muted)] text-base mb-8 max-w-lg mx-auto font-light tracking-wide">{banner.subtitle.fa}</p>
+                <p className="text-[var(--color-text-muted)] text-base mb-6 max-w-lg mx-auto">{banner.subtitle.fa}</p>
               )}
               <Link href={banner?.buttonLink || '/products'} className="btn-primary group inline-flex">
                 <Truck size={15} strokeWidth={1.5} />
-                <span className="uppercase text-sm tracking-[0.12em]">{banner?.buttonText?.fa || 'شروع خرید'}</span>
+                <span>{banner?.buttonText?.fa || 'شروع خرید'}</span>
                 <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -200,7 +184,7 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
       <ModuleGate module="blog">
         {blogPosts.length > 0 ? (
           <ScrollReveal delay={100}>
-            <section className="page-container-wide py-10 sm:py-14 md:py-20 bg-[var(--color-blue-mist)]">
+            <section className="page-container-wide py-10 sm:py-12 md:py-16 bg-[var(--color-surface)] border-y border-[var(--color-border-light)]">
               <SectionHeader
                 title={getSection(config, 'blog_posts').title?.fa || 'مجله مد'}
                 subtitle={getSection(config, 'blog_posts').subtitle?.fa}
@@ -253,12 +237,11 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
         {newsletter?.enabled !== false ? (
           <ScrollReveal direction="up">
             <section className="page-container-wide py-10 sm:py-14 md:py-20">
-              <div className="max-w-xl mx-auto text-center border border-[var(--color-border)] p-6 sm:p-10 md:p-14 bg-[var(--color-surface)]">
-                <Mail size={24} strokeWidth={1} className="mx-auto mb-5 text-[var(--color-blue-deep)]" />
-                {newsletter?.label?.fa && <p className="fashion-label mb-3">{newsletter.label.fa}</p>}
+              <div className="max-w-xl mx-auto text-center border border-[var(--color-border-light)] p-6 sm:p-8 md:p-10 bg-[var(--color-surface)]">
+                <Mail size={22} strokeWidth={1.5} className="mx-auto mb-4 text-[var(--color-blue-deep)]" />
+                {newsletter?.label?.fa && <p className="fashion-label mb-2">{newsletter.label.fa}</p>}
                 <h2 className="section-title mb-2">{newsletter?.title?.fa || 'عضویت در خبرنامه'}</h2>
-                <div className="fashion-divider" />
-                {newsletter?.subtitle?.fa && <p className="text-[var(--color-text-muted)] text-base mb-8 font-light">{newsletter.subtitle.fa}</p>}
+                {newsletter?.subtitle?.fa && <p className="text-[var(--color-text-muted)] text-base mb-6">{newsletter.subtitle.fa}</p>}
                 <NewsletterForm />
               </div>
             </section>
@@ -272,8 +255,7 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
         <section className="page-container-wide py-16 text-center">
           <p className="fashion-label mb-3">Testimonials</p>
           <h2 className="section-title">نظرات مشتریان</h2>
-          <div className="fashion-divider" />
-          <p className="text-[var(--color-text-muted)] text-sm font-light">به زودی...</p>
+          <p className="text-[var(--color-text-muted)] text-sm mt-2">به زودی...</p>
         </section>
       </ScrollReveal>
     ),
@@ -283,8 +265,7 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
         <section className="page-container-wide py-16 text-center">
           <p className="fashion-label mb-3">Brands</p>
           <h2 className="section-title">برندهای همکار</h2>
-          <div className="fashion-divider" />
-          <p className="text-[var(--color-text-muted)] text-sm font-light">به زودی...</p>
+          <p className="text-[var(--color-text-muted)] text-sm mt-2">به زودی...</p>
         </section>
       </ScrollReveal>
     ),
@@ -294,9 +275,8 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
 
   return (
     <div className="parallax-home">
-      {visibleBlocks.map((block, index) => {
+      {visibleBlocks.map((block) => {
         const content = blockComponents[block];
-        const meta = PARALLAX_META[block];
 
         if (block === 'hero_slider') {
           return (
@@ -308,12 +288,7 @@ export default function HomeBlocks({ featuredProducts, newProducts, categories, 
 
         return (
           <Fragment key={block}>
-            {index > 0 && <ParallaxDivider />}
-            <ParallaxSection
-              pattern={meta?.pattern ?? 'none'}
-              patternPosition={meta?.patternPosition ?? 'right'}
-              tinted={meta?.tinted}
-            >
+            <ParallaxSection>
               {content}
             </ParallaxSection>
           </Fragment>

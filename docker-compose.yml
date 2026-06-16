@@ -102,6 +102,7 @@ services:
       dockerfile: Dockerfile
     container_name: necoll-store
     restart: unless-stopped
+    command: ["npm", "run", "dev"]
     environment:
       NODE_ENV: development
       NEXT_PUBLIC_API_URL: http://localhost:3011/api
@@ -116,8 +117,8 @@ services:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
       interval: 15s
       timeout: 5s
-      retries: 10
-      start_period: 60s
+      retries: 15
+      start_period: 90s
     volumes:
       - ./store/src:/app/src
       - ./store/public:/app/public

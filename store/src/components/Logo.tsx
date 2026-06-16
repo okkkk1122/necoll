@@ -1,24 +1,28 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useConfig } from '@/lib/config-context';
-import { resolveLogoUrl } from '@/lib/media';
 
 interface LogoProps {
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'splash';
   showText?: boolean;
   className?: string;
   linkToHome?: boolean;
-  variant?: 'default' | 'header' | 'footer';
 }
 
 const sizes = {
-  sm: { img: 52, text: 'text-lg' },
-  md: { img: 60, text: 'text-xl' },
-  lg: { img: 76, text: 'text-2xl' },
+  sm: { n: 'text-[2.35rem] sm:text-[2.75rem]', word: 'text-[1.55rem] sm:text-[1.85rem]' },
+  md: { n: 'text-[2.85rem]', word: 'text-[2rem]' },
+  lg: { n: 'text-[3.75rem]', word: 'text-[2.65rem]' },
+  splash: { n: 'text-[4.5rem] sm:text-[5.5rem]', word: 'text-[2.75rem] sm:text-[3.5rem]' },
 };
+
+function formatBrandEn(name?: string): string {
+  const raw = (name || 'necoll').trim();
+  if (!raw) return 'Necoll';
+  return raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
+}
 
 export default function Logo({
   size = 'md',
@@ -28,41 +32,31 @@ export default function Logo({
 }: LogoProps) {
   const config = useConfig();
   const s = sizes[size];
-  const logoSrc = resolveLogoUrl(config.site_logo);
-  const brandName = config.site_name?.en || 'necoll';
-  const tagline = config.site_description?.en?.slice(0, 30) || "Women's Fashion";
+  const brandName = formatBrandEn(config.site_name?.en);
+  const monogram = brandName.charAt(0);
+  const brandRest = brandName.slice(1);
+  const siteNameFa = config.site_name?.fa || 'نکال';
 
   const content = (
-    <div className={clsx('flex items-center gap-3 group', className)}>
-      <div
-        className="relative shrink-0 rounded-full overflow-hidden transition-all duration-500 group-hover:scale-[1.03] ring-1 ring-[var(--color-blue-soft)]/40 group-hover:ring-[var(--color-blue-deep)]/50 shadow-sm"
-        style={{ width: s.img, height: s.img }}
-      >
-        <Image
-          src={logoSrc}
-          alt={`${brandName} - Women's Fashion Boutique`}
-          fill
-          className="object-cover"
-          priority
-          sizes={`${s.img}px`}
-          unoptimized
-        />
-      </div>
+    <div
+      className={clsx('logo-mark', size === 'splash' && 'logo-mark--splash', className)}
+      dir="ltr"
+    >
+      <span className={clsx('logo-mark__n', s.n)} aria-hidden="true">
+        {monogram}
+      </span>
       {showText && (
-        <div className="hidden sm:block text-right">
-          <span className={clsx('font-display font-semibold tracking-wide block leading-tight lowercase', s.text, 'text-[var(--logo-text)]')}>
-            {brandName}
-          </span>
-          <span className="text-[11px] text-[var(--color-text-muted)] tracking-[0.18em] uppercase">
-            {tagline}
-          </span>
-        </div>
+        <span className={clsx('logo-mark__word', s.word)}>{brandRest}</span>
       )}
     </div>
   );
 
   if (linkToHome) {
-    return <Link href="/" aria-label={`صفحه اصلی ${config.site_name?.fa || 'نکال'}`}>{content}</Link>;
+    return (
+      <Link href="/" className="logo-mark-link" dir="ltr" aria-label={`صفحه اصلی ${siteNameFa}`}>
+        {content}
+      </Link>
+    );
   }
   return content;
 }

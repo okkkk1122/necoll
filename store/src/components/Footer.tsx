@@ -48,13 +48,13 @@ export default function Footer() {
 
     <footer className="mt-auto border-t border-[var(--color-border-light)]" style={{ background: 'var(--color-footer)' }}>
 
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20 max-w-full">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-14 max-w-full">
 
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
 
-          <Logo size="lg" variant="default" className="justify-center" />
+          <Logo size="lg" showText className="justify-center" />
 
-          <p className="text-[var(--color-text-muted)] text-sm mt-5 max-w-md mx-auto font-light leading-relaxed tracking-wide">
+          <p className="text-[var(--color-text-muted)] text-sm mt-4 max-w-md mx-auto">
 
             {config.site_description?.fa || 'بوتیک مد و پوشاک زنانه نکال'}
 

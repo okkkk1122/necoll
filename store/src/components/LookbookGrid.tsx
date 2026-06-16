@@ -20,14 +20,13 @@ export default function LookbookGrid({ limit, showHeader = true }: LookbookGridP
   const items = limit ? lookbook.items.slice(0, limit) : lookbook.items;
 
   return (
-    <section className="page-container-wide py-16 md:py-20">
+    <section className="page-container-wide py-10 md:py-14">
       {showHeader && (
         <div className="text-center mb-10 md:mb-14">
           {labels?.label?.fa && <p className="fashion-label mb-3">{labels.label.fa}</p>}
           <h2 className="section-title">{labels?.title?.fa || lookbook.pageTitle?.fa || 'لوک‌بوک'}</h2>
-          <div className="fashion-divider" />
           {(labels?.subtitle?.fa || lookbook.pageSubtitle?.fa) && (
-            <p className="section-subtitle">{labels?.subtitle?.fa || lookbook.pageSubtitle?.fa}</p>
+            <p className="section-subtitle mt-2">{labels?.subtitle?.fa || lookbook.pageSubtitle?.fa}</p>
           )}
           {labels?.linkText?.fa && (
             <Link href="/lookbook" className="link-arrow group mt-6 inline-flex">
