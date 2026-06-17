@@ -1,0 +1,36 @@
+# Override برای توسعه محلی — mount کد + hot-reload
+# اجرا: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# یا در .env: COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
+services:
+  backend:
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+
+  store:
+    command: ["npm", "run", "dev"]
+    environment:
+      WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
+      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
+    volumes:
+      - ./store/src:/app/src
+      - ./store/public:/app/public
+
+  admin:
+    command: ["npm", "run", "dev"]
+    environment:
+      WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
+      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
+    volumes:
+      - ./admin/src:/app/src
+
+  adminer:
+    image: adminer:latest
+    container_name: necoll-adminer
+    restart: unless-stopped
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy

@@ -3,6 +3,10 @@ import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import { authenticate, requireRole, optionalAuth, AuthRequest } from '../middleware/auth';
 import { businessRulesEngine } from '../services/business-rules.service';
+import {
+  applySaleFilter,
+  buildShopProductWhere,
+} from '../services/shop-filter.service';
 
 const router = Router();
 
@@ -24,21 +28,21 @@ router.put('/fields/definitions/:id', authenticate, requireRole('SUPER_ADMIN', '
 
 router.get('/', optionalAuth, async (req: AuthRequest, res) => {
   try {
-    const { category, featured, search, page = '1', limit = '12' } = req.query;
+    const { category, featured, search, section, item, sale, page = '1', limit = '12' } = req.query;
     const pageNum = parseInt(page as string, 10);
     const limitNum = parseInt(limit as string, 10);
     const skip = (pageNum - 1) * limitNum;
 
-    const where: Record<string, unknown> = { isActive: true };
-    if (category) where.categoryId = category;
-    if (featured === 'true') where.isFeatured = true;
-    if (search) {
-      where.OR = [
-        { slug: { contains: search as string, mode: 'insensitive' } },
-      ];
-    }
+    const where = await buildShopProductWhere({
+      category: category as string | undefined,
+      featured: featured as string | undefined,
+      search: search as string | undefined,
+      section: section as string | undefined,
+      item: item as string | undefined,
+      sale: sale as string | undefined,
+    });
 
-    const [products, total] = await Promise.all([
+    let [products, total] = await Promise.all([
       prisma.product.findMany({
         where,
         include: { category: true },
@@ -48,6 +52,17 @@ router.get('/', optionalAuth, async (req: AuthRequest, res) => {
       }),
       prisma.product.count({ where }),
     ]);
+
+    if (sale === 'true') {
+      const allSale = await prisma.product.findMany({
+        where,
+        include: { category: true },
+        orderBy: { createdAt: 'desc' },
+      });
+      const filtered = applySaleFilter(allSale);
+      total = filtered.length;
+      products = filtered.slice(skip, skip + limitNum);
+    }
 
     const rules = await prisma.businessRule.findMany({ where: { isActive: true } });
     const enriched = products.map((product) => ({

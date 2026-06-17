@@ -7,15 +7,16 @@ import { useConfig } from '@/lib/config-context';
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'splash';
   showText?: boolean;
+  iconOnly?: boolean;
   className?: string;
   linkToHome?: boolean;
 }
 
 const sizes = {
-  sm: { n: 'text-[2.35rem] sm:text-[2.75rem]', word: 'text-[1.55rem] sm:text-[1.85rem]' },
-  md: { n: 'text-[2.85rem]', word: 'text-[2rem]' },
-  lg: { n: 'text-[3.75rem]', word: 'text-[2.65rem]' },
-  splash: { n: 'text-[4.5rem] sm:text-[5.5rem]', word: 'text-[2.75rem] sm:text-[3.5rem]' },
+  sm: { n: 'text-[2.5rem] sm:text-[3rem]', word: 'text-[1.35rem] sm:text-[1.6rem]', icon: 'h-8 w-8' },
+  md: { n: 'text-[3.25rem]', word: 'text-[1.75rem]', icon: 'h-10 w-10' },
+  lg: { n: 'text-[4.25rem]', word: 'text-[2.25rem]', icon: 'h-12 w-12' },
+  splash: { n: 'text-[5rem] sm:text-[6rem]', word: 'text-[2.5rem] sm:text-[3.25rem]', icon: 'h-14 w-14' },
 };
 
 function formatBrandEn(name?: string): string {
@@ -27,6 +28,7 @@ function formatBrandEn(name?: string): string {
 export default function Logo({
   size = 'md',
   showText = true,
+  iconOnly = false,
   className,
   linkToHome = true,
 }: LogoProps) {
@@ -36,8 +38,15 @@ export default function Logo({
   const monogram = brandName.charAt(0);
   const brandRest = brandName.slice(1);
   const siteNameFa = config.site_name?.fa || 'نکال';
+  const logoSrc = config.site_logo && config.site_logo !== '/logo.svg' ? config.site_logo : '/logo.png';
 
-  const content = (
+  const content = iconOnly ? (
+    <img
+      src={logoSrc}
+      alt={siteNameFa}
+      className={clsx('logo-icon object-contain', s.icon, className)}
+    />
+  ) : (
     <div
       className={clsx('logo-mark', size === 'splash' && 'logo-mark--splash', className)}
       dir="ltr"
@@ -46,14 +55,14 @@ export default function Logo({
         {monogram}
       </span>
       {showText && (
-        <span className={clsx('logo-mark__word', s.word)}>{brandRest}</span>
+        <span className={clsx('logo-mark__word', s.word)}>{brandRest.toLowerCase()}</span>
       )}
     </div>
   );
 
   if (linkToHome) {
     return (
-      <Link href="/" className="logo-mark-link" dir="ltr" aria-label={`صفحه اصلی ${siteNameFa}`}>
+      <Link href="/" className="logo-mark-link inline-flex" dir="ltr" aria-label={`صفحه اصلی ${siteNameFa}`}>
         {content}
       </Link>
     );

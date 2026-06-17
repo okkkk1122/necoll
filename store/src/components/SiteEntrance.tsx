@@ -1,14 +1,11 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
-import Logo from './Logo';
+import { useEffect, useState } from 'react';
 
-const INTRO_KEY = 'necal_intro_seen';
+const INTRO_KEY = 'necoll_intro_seen';
 
 export default function SiteEntrance() {
   const [phase, setPhase] = useState<'hidden' | 'active' | 'exit'>('hidden');
-
-  const tagline = 'Women\'s Fashion Boutique';
 
   useEffect(() => {
     try {
@@ -24,7 +21,7 @@ export default function SiteEntrance() {
     setPhase('active');
     document.body.style.overflow = 'hidden';
 
-    const exitTimer = window.setTimeout(() => setPhase('exit'), 3400);
+    const exitTimer = window.setTimeout(() => setPhase('exit'), 3000);
     const hideTimer = window.setTimeout(() => {
       setPhase('hidden');
       document.body.style.overflow = '';
@@ -46,38 +43,22 @@ export default function SiteEntrance() {
 
   return (
     <div
-      className={`site-entrance ${phase === 'exit' ? 'site-entrance--exit' : ''}`}
+      className={`bw-splash ${phase === 'exit' ? 'bw-splash--exit' : ''}`}
       role="presentation"
       aria-hidden="true"
     >
-      <div className="site-entrance__bg" />
-      <div className="site-entrance__mesh" />
+      <div className="bw-splash__panel bw-splash__panel--left" />
+      <div className="bw-splash__panel bw-splash__panel--right" />
 
-      <div className="site-entrance__ring site-entrance__ring--1" />
-      <div className="site-entrance__ring site-entrance__ring--2" />
-      <div className="site-entrance__ring site-entrance__ring--3" />
-
-      <div className="site-entrance__particles" aria-hidden="true">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <span key={i} className="site-entrance__particle" style={{ '--i': i } as CSSProperties} />
-        ))}
-      </div>
-
-      <div className="site-entrance__curtain site-entrance__curtain--left" />
-      <div className="site-entrance__curtain site-entrance__curtain--right" />
-
-      <div className="site-entrance__content">
-        <p className="site-entrance__eyebrow font-nav">Welcome to</p>
-
-        <div className="site-entrance__brand-logo">
-          <Logo size="splash" showText linkToHome={false} className="justify-center" />
+      <div className="bw-splash__content">
+        <div className="bw-splash__logo" dir="ltr">
+          <span className="bw-splash__n" aria-hidden="true">
+            N
+          </span>
+          <span className="bw-splash__rest">ecoll</span>
         </div>
-
-        <p className="site-entrance__tagline font-nav">{tagline}</p>
-
-        <div className="site-entrance__progress">
-          <div className="site-entrance__progress-bar" />
-        </div>
+        <div className="bw-splash__rule" />
+        <p className="bw-splash__tagline">Women&apos;s Fashion Boutique</p>
       </div>
     </div>
   );

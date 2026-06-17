@@ -1,4 +1,4 @@
-# Necoll — Full Site Test Suite (Extended)
+# Necoll — Site Test Suite (Monaie minimal)
 $BaseUrl = "http://localhost:3011"
 $ApiUrl = "$BaseUrl/api"
 $Passed = 0
@@ -66,13 +66,13 @@ function Test-No404 {
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Necoll Site Test Suite (Extended)" -ForegroundColor Cyan
+Write-Host "  Necoll Site Test Suite (Minimal)" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Docker containers
 Write-Host "[Docker] Checking containers..." -ForegroundColor Yellow
-$containers = @("necoll-nginx", "necoll-backend", "necoll-store", "necoll-admin", "necoll-postgres", "necoll-redis")
+$containers = @("necoll-nginx", "necoll-backend", "necoll-store", "necoll-postgres", "necoll-redis")
 foreach ($c in $containers) {
     $status = docker inspect -f '{{.State.Status}}' $c 2>$null
     if ($status -eq "running") {
@@ -90,17 +90,39 @@ Write-Host "[API] Testing endpoints..." -ForegroundColor Yellow
 Test-Endpoint "API Health" "$ApiUrl/health" -Contains "ok"
 Test-JsonApi "Config Public" "$ApiUrl/config/public" { param($j) ($j.site_name.fa -or $j.site_name.en -or $j.site_name) -ne $null }
 Test-JsonApi "Config: site_logo" "$ApiUrl/config/public" { param($j) $j.site_logo -eq '/logo.png' }
-Test-JsonApi "Config: announcement_bar" "$ApiUrl/config/public" { param($j) $j.announcement_bar.enabled -eq $true }
-Test-JsonApi "Config: lookbook_config" "$ApiUrl/config/public" { param($j) $j.lookbook_config.enabled -eq $true }
-Test-JsonApi "Config: home has lookbook" "$ApiUrl/config/public" { param($j) $j.home_layout_blocks -contains 'lookbook' }
+Test-JsonApi "Config: announcement disabled" "$ApiUrl/config/public" { param($j) $j.announcement_bar.enabled -eq $false }
+Test-JsonApi "Config: lookbook disabled" "$ApiUrl/config/public" { param($j) $j.lookbook_config.enabled -eq $false }
+Test-JsonApi "Config: minimal home layout" "$ApiUrl/config/public" {
+    param($j)
+    $blocks = $j.home_layout_blocks
+    ($blocks -contains 'categories') -and ($blocks -notcontains 'hero_slider') -and ($blocks -notcontains 'lookbook')
+}
+Test-JsonApi "Config: home categories" "$ApiUrl/config/public" { param($j) $j.home_categories.Count -ge 7 }
 Test-JsonApi "Products List" "$ApiUrl/products?limit=5" { param($j) $j.products.Count -gt 0 }
+try {
+    $cats = (Invoke-WebRequest -Uri "$ApiUrl/categories" -UseBasicParsing -TimeoutSec 15).Content | ConvertFrom-Json
+    $manteauId = ($cats | Where-Object { $_.slug -eq 'manteau' }).id
+    if ($manteauId) {
+        Test-JsonApi "Menu filter: manteau only" "$ApiUrl/products?section=clothing&category=$manteauId" {
+            param($j)
+            $j.products.Count -eq 1 -and $j.products[0].slug -eq 'mustard-lace-manteau'
+        }
+    }
+} catch {
+    $Failed++
+    $Results += [PSCustomObject]@{ Status = "FAIL"; Name = "Menu filter: manteau only"; Code = 0; Error = $_.Exception.Message }
+}
+Test-JsonApi "Menu filter: scarves rosari" "$ApiUrl/products?section=scarves&item=rosari" {
+  param($j) $j.products.Count -eq 1 -and $j.products[0].slug -eq 'silk-rosari'
+}
+Test-JsonApi "Menu filter: featured" "$ApiUrl/products?featured=true" {
+  param($j) ($j.products | Where-Object { $_.isFeatured -eq $true }).Count -eq $j.products.Count -and $j.products.Count -gt 0
+}
 Test-JsonApi "Categories" "$ApiUrl/categories" { param($j) $j.Count -gt 0 }
-Test-JsonApi "Blog Posts" "$ApiUrl/blog" { param($j) $j.Count -gt 0 }
-Test-JsonApi "Navigation" "$ApiUrl/navigation" { param($j) $j.Count -ge 5 }
+Test-JsonApi "Navigation" "$ApiUrl/navigation" { param($j) $j.Count -ge 10 }
 Test-JsonApi "Payment Gateways" "$ApiUrl/payment/gateways" { param($j) $true }
-Test-JsonApi "Chat Status" "$ApiUrl/chat/status" { param($j) $j.enabled -ne $null }
+Test-JsonApi "Chat disabled" "$ApiUrl/chat/status" { param($j) $j.enabled -eq $false }
 Test-JsonApi "Pages About" "$ApiUrl/pages/about" { param($j) $j.title -ne $null }
-Test-Endpoint "Newsletter Subscribe" "$ApiUrl/newsletter/subscribe" -Method POST -Body '{"email":"test@necoll.ir"}' -ExpectedCodes @(200)
 
 Write-Host ""
 Write-Host "[Pages] Testing frontend pages..." -ForegroundColor Yellow
@@ -108,17 +130,15 @@ Write-Host "[Pages] Testing frontend pages..." -ForegroundColor Yellow
 $pages = @(
     @{ Name = "Home"; Url = "$BaseUrl/" },
     @{ Name = "Products"; Url = "$BaseUrl/products" },
-    @{ Name = "Lookbook"; Url = "$BaseUrl/lookbook" },
     @{ Name = "Cart"; Url = "$BaseUrl/cart" },
     @{ Name = "Checkout"; Url = "$BaseUrl/checkout" },
     @{ Name = "About"; Url = "$BaseUrl/about" },
     @{ Name = "Contact"; Url = "$BaseUrl/contact" },
-    @{ Name = "Blog"; Url = "$BaseUrl/blog" },
+    @{ Name = "Account"; Url = "$BaseUrl/account" },
+    @{ Name = "Club"; Url = "$BaseUrl/club" },
+    @{ Name = "Terms"; Url = "$BaseUrl/terms" },
     @{ Name = "Admin Login"; Url = "$BaseUrl/admin/login" },
-    @{ Name = "Admin Dashboard"; Url = "$BaseUrl/admin" },
-    @{ Name = "Admin Content"; Url = "$BaseUrl/admin/content" },
-    @{ Name = "Admin Navigation"; Url = "$BaseUrl/admin/navigation" },
-    @{ Name = "Admin Product Edit"; Url = "$BaseUrl/admin/products/edit" }
+    @{ Name = "Admin Dashboard"; Url = "$BaseUrl/admin" }
 )
 
 foreach ($p in $pages) {
@@ -128,8 +148,7 @@ foreach ($p in $pages) {
 Test-JsonApi "Product Slug" "$ApiUrl/products/pinstripe-suit-set" { param($j) $j.slug -eq "pinstripe-suit-set" }
 Test-JsonApi "Product has image" "$ApiUrl/products/pinstripe-suit-set" { param($j) $j.images.Count -gt 0 }
 Test-Endpoint "Product Detail Page" "$BaseUrl/products/pinstripe-suit-set"
-Test-No404 "Product Image" "$BaseUrl/images/products/pinstripe-suit-set.png"
-Test-Endpoint "Blog Post Page" "$BaseUrl/blog/welcome-to-necoll"
+Test-No404 "Product Image" "$BaseUrl/images/products/pinstripe-suit-set.jpg"
 
 Write-Host ""
 Write-Host "[Mobile] Checking responsive markup..." -ForegroundColor Yellow
@@ -138,10 +157,13 @@ try {
     $homeHtml = (Invoke-WebRequest -Uri "$BaseUrl/" -UseBasicParsing -TimeoutSec 15).Content
     $mobileChecks = @(
         @{ Name = "Viewport meta"; Pattern = 'width=device-width' },
-        @{ Name = "Hero slider class"; Pattern = 'hero-slider' },
-        @{ Name = "Mobile bottom nav"; Pattern = 'mobile-bottom-nav' },
-        @{ Name = "Mobile nav lg:hidden"; Pattern = 'lg:hidden' },
-        @{ Name = "Main mobile padding"; Pattern = 'main-with-mobile-nav' }
+        @{ Name = "Monaie category cards"; Pattern = 'monaie-cat-card' },
+        @{ Name = "Monaie home grid"; Pattern = 'monaie-home-categories' },
+        @{ Name = "Mobile menu lg:hidden"; Pattern = 'lg:hidden' }
+    )
+    $noExtraChecks = @(
+        @{ Name = "No hero slider"; Pattern = 'hero-slider' },
+        @{ Name = "No mobile bottom nav"; Pattern = 'mobile-bottom-nav' }
     )
     foreach ($check in $mobileChecks) {
         if ($homeHtml -match [regex]::Escape($check.Pattern) -or $homeHtml -match $check.Pattern) {
@@ -151,6 +173,24 @@ try {
             $Failed++
             $Results += [PSCustomObject]@{ Status = "FAIL"; Name = "Mobile: $($check.Name)"; Code = 0; Error = "Not in HTML" }
         }
+    }
+    foreach ($check in $noExtraChecks) {
+        if ($homeHtml -notmatch [regex]::Escape($check.Pattern)) {
+            $Passed++
+            $Results += [PSCustomObject]@{ Status = "PASS"; Name = "Mobile: $($check.Name)"; Code = "absent" }
+        } else {
+            $Failed++
+            $Results += [PSCustomObject]@{ Status = "FAIL"; Name = "Mobile: $($check.Name)"; Code = 0; Error = "Still in HTML" }
+        }
+    }
+
+    $productsHtml = (Invoke-WebRequest -Uri "$BaseUrl/products" -UseBasicParsing -TimeoutSec 15).Content
+    if ($productsHtml -match 'monaie-shop-products__grid' -and $productsHtml -match 'monaie-product-card' -and $productsHtml -notmatch 'فیلترها') {
+        $Passed++
+        $Results += [PSCustomObject]@{ Status = "PASS"; Name = "Products: wide grid no filters"; Code = "found" }
+    } else {
+        $Failed++
+        $Results += [PSCustomObject]@{ Status = "FAIL"; Name = "Products: wide grid no filters"; Code = 0; Error = "Layout mismatch" }
     }
 } catch {
     $Failed++
@@ -162,6 +202,7 @@ Write-Host "[Assets] Checking static files..." -ForegroundColor Yellow
 
 Test-No404 "Logo PNG" "$BaseUrl/logo.png"
 Test-No404 "Favicon PNG" "$BaseUrl/favicon.png"
+Test-No404 "Enamad badge" "$BaseUrl/enamad.png"
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan

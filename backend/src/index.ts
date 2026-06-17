@@ -25,7 +25,8 @@ import newsletterRoutes from './routes/newsletter.routes';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = parseInt(process.env.PORT || '4000', 10);
+const HOST = process.env.HOST || '0.0.0.0';
 
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({
@@ -78,7 +79,7 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Necoll Backend running on port ${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Necoll Backend running on ${HOST}:${PORT}`);
   console.log(`📡 HyperConfig System active`);
 });

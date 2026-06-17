@@ -23,107 +23,100 @@ export default function HeroSlider() {
 
   if (!slider?.enabled || !slides.length) return null;
 
+  const slide = slides[current];
+  const showTextOverlay = Boolean(slide.title?.trim());
+
   return (
-    <section className="hero-slider relative w-full overflow-hidden">
-      {slides.map((slide, i) => {
-        const isVideo = slide.mediaType === 'video' && slide.video;
-        const imageUrl = resolveMediaUrl(slide.image);
-        const videoUrl = resolveMediaUrl(slide.video);
-        const isActive = i === current;
-        const showTextOverlay = Boolean(slide.title?.trim());
-
-        return (
-          <div
-            key={i}
-            className={`absolute inset-0 transition-opacity duration-700 ease-out ${
-              isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            }`}
-          >
-            <div className="absolute inset-0">
-              {isVideo && videoUrl ? (
-                <video
-                  src={videoUrl}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="hero-slider__media"
-                />
-              ) : imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt={slide.title || 'اسلاید فروشگاه نکال'}
-                  className="hero-slider__media"
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-[var(--color-blue-pale)]" />
-              )}
-            </div>
-
-            <div className="hero-slider__overlay" />
-
-            {showTextOverlay && (
-              <div className="absolute inset-0 flex items-end sm:items-center justify-center sm:justify-end z-[2] pointer-events-none pb-14 sm:pb-0">
-                <div className="hero-slider__content text-center sm:text-right px-4 sm:px-10 md:px-16 lg:px-20 w-full sm:max-w-xl md:max-w-2xl pointer-events-auto">
-                  <p className="fashion-label mb-2 sm:mb-3 text-white/90 text-xs">
-                    {config.site_name?.fa || 'نکال'}
-                  </p>
-                  <h2 className="text-xl sm:text-2xl md:text-4xl text-white mb-2 sm:mb-4 font-heading font-bold leading-tight">
-                    {slide.title}
-                  </h2>
-                  {slide.subtitle && (
-                    <p className="text-sm sm:text-base text-white/90 mb-4 sm:mb-6 leading-relaxed line-clamp-2 sm:line-clamp-none">
-                      {slide.subtitle}
-                    </p>
-                  )}
-                  {slide.buttonText && (
-                    <Link
-                      href={slide.link || '/products'}
-                      className="btn-outline border-white/70 text-white hover:bg-white/15 hover:border-white group inline-flex text-sm !px-5 !py-2.5 sm:!px-6 sm:!py-3"
-                    >
-                      <span>{slide.buttonText}</span>
-                      <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-                    </Link>
-                  )}
-                </div>
-              </div>
+    <section className="monaie-hero hero-slider border-b border-[var(--color-border)]">
+      <div className="grid grid-cols-1 md:grid-cols-12 min-h-[320px] md:min-h-[420px]">
+        {showTextOverlay && (
+          <div className="md:col-span-4 bg-[var(--color-primary)] text-white flex flex-col justify-center p-8 md:p-10 lg:p-12 order-2 md:order-1">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold leading-tight mb-3">
+              {slide.title}
+            </h1>
+            {slide.subtitle && (
+              <p className="text-sm md:text-base text-white/85 leading-relaxed mb-6 max-w-sm">
+                {slide.subtitle}
+              </p>
+            )}
+            {slide.buttonText && (
+              <Link
+                href={slide.link || '/products'}
+                className="inline-flex items-center gap-2 text-sm border border-white/60 px-5 py-2.5 w-fit hover:bg-white hover:text-black transition-colors"
+              >
+                <span>{slide.buttonText}</span>
+                <ArrowLeft size={14} />
+              </Link>
             )}
           </div>
-        );
-      })}
+        )}
 
-      {slides.length > 1 && (
-        <>
-          <button
-            onClick={() => setCurrent((c) => (c - 1 + slides.length) % slides.length)}
-            className="hero-slider__nav-btn absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2"
-            aria-label="اسلاید قبلی"
-          >
-            <ChevronLeft size={18} strokeWidth={1.5} className="sm:w-5 sm:h-5" />
-          </button>
-          <button
-            onClick={() => setCurrent((c) => (c + 1) % slides.length)}
-            className="hero-slider__nav-btn absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2"
-            aria-label="اسلاید بعدی"
-          >
-            <ChevronRight size={18} strokeWidth={1.5} className="sm:w-5 sm:h-5" />
-          </button>
-          <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-            {slides.map((_, i) => (
-              <button
+        <div
+          className={`relative overflow-hidden bg-[#f7f7f7] order-1 md:order-2 ${
+            showTextOverlay ? 'md:col-span-8' : 'md:col-span-12'
+          } min-h-[260px] md:min-h-full`}
+        >
+          {slides.map((s, i) => {
+            const sVideo = s.mediaType === 'video' && s.video;
+            const sImage = resolveMediaUrl(s.image);
+            const sVideoUrl = resolveMediaUrl(s.video);
+            const active = i === current;
+
+            return (
+              <div
                 key={i}
-                onClick={() => setCurrent(i)}
-                className={`h-px transition-all duration-300 ${
-                  i === current ? 'bg-white w-8' : 'bg-white/40 w-5 hover:bg-white/60'
+                className={`absolute inset-0 transition-opacity duration-700 ${
+                  active ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
-                aria-label={`اسلاید ${i + 1}`}
-              />
-            ))}
-          </div>
-        </>
-      )}
+              >
+                {sVideo && sVideoUrl ? (
+                  <video src={sVideoUrl} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                ) : sImage ? (
+                  <img
+                    src={sImage}
+                    alt={s.title || 'اسلاید'}
+                    className="w-full h-full object-cover"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#f0f0f0]" />
+                )}
+              </div>
+            );
+          })}
+
+          {slides.length > 1 && (
+            <>
+              <button
+                onClick={() => setCurrent((c) => (c - 1 + slides.length) % slides.length)}
+                className="hero-slider__nav-btn absolute left-3 top-1/2 -translate-y-1/2"
+                aria-label="اسلاید قبلی"
+              >
+                <ChevronLeft size={18} strokeWidth={1.5} />
+              </button>
+              <button
+                onClick={() => setCurrent((c) => (c + 1) % slides.length)}
+                className="hero-slider__nav-btn absolute right-3 top-1/2 -translate-y-1/2"
+                aria-label="اسلاید بعدی"
+              >
+                <ChevronRight size={18} strokeWidth={1.5} />
+              </button>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrent(i)}
+                    className={`h-px transition-all duration-300 ${
+                      i === current ? 'bg-black w-8' : 'bg-black/30 w-5 hover:bg-black/50'
+                    }`}
+                    aria-label={`اسلاید ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

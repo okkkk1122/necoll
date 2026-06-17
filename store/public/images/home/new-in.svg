@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-label="New In">
+  <rect width="800" height="360" fill="#0a0a0a"/>
+  <circle cx="680" cy="80" r="120" fill="#1a1a1a"/>
+  <path d="M0 280 Q200 120 400 220 T800 160 L800 360 L0 360 Z" fill="#ffffff" opacity="0.08"/>
+  <path d="M60 360 L260 40 L420 360 Z" fill="#ffffff" opacity="0.05"/>
+  <line x1="120" y1="60" x2="320" y2="300" stroke="#ffffff" stroke-width="1.5" opacity="0.35"/>
+  <line x1="480" y1="40" x2="620" y2="320" stroke="#888888" stroke-width="1" opacity="0.5"/>
+  <text x="40" y="48" fill="#ffffff" font-family="system-ui,sans-serif" font-size="11" letter-spacing="6" opacity="0.4">NEW IN</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-label="Shoes and Bags">
+  <rect width="800" height="360" fill="#fafafa"/>
+  <rect x="0" y="0" width="400" height="360" fill="#111"/>
+  <path d="M120 120 L200 80 L280 100 L320 200 Q300 280 180 280 Q100 260 120 120 Z" fill="#f0f0f0"/>
+  <rect x="480" y="100" width="200" height="160" rx="8" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M500 120 L660 120 L640 240 L520 240 Z" fill="#111" opacity="0.08"/>
+  <line x1="480" y1="140" x2="680" y2="140" stroke="#ccc" stroke-width="1"/>
+  <circle cx="560" cy="200" r="24" fill="#111" opacity="0.15"/>
+</svg>

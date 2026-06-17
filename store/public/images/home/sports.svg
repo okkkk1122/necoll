@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-label="Sports">
+  <rect width="800" height="360" fill="#1a1a1a"/>
+  <path d="M0 200 L160 80 L320 200 L480 60 L640 180 L800 40 L800 360 L0 360 Z" fill="#ffffff" opacity="0.06"/>
+  <polygon points="400,50 520,280 280,280" fill="none" stroke="#fff" stroke-width="2" opacity="0.35"/>
+  <line x1="60" y1="300" x2="740" y2="60" stroke="#888" stroke-width="1.5" opacity="0.5"/>
+  <line x1="100" y1="60" x2="700" y2="300" stroke="#555" stroke-width="1" opacity="0.4"/>
+  <rect x="360" y="140" width="80" height="80" fill="#fff" opacity="0.05" transform="rotate(45 400 180)"/>
+</svg>

@@ -61,39 +61,39 @@ async function main() {
     {
       key: 'colors_theme',
       value: {
-        primary: '#2D4A5E',
-        secondary: '#A8DDF2',
-        accent: '#7EC8EB',
-        background: '#F5FAFE',
-        surface: '#FFFFFF',
-        text: '#2D4A5E',
-        textMuted: '#6B8FA3',
-        header: '#FFFFFF',
-        footer: '#E8F4FC',
-        button: '#3A9FD4',
-        buttonText: '#FFFFFF',
-        link: '#3A9FD4',
-        card: '#FFFFFF',
-        border: '#C8E4F2',
+        primary: '#111111',
+        secondary: '#f5f5f5',
+        accent: '#111111',
+        background: '#ffffff',
+        surface: '#ffffff',
+        text: '#111111',
+        textMuted: '#666666',
+        header: '#ffffff',
+        footer: '#fafafa',
+        button: '#111111',
+        buttonText: '#ffffff',
+        link: '#111111',
+        card: '#ffffff',
+        border: '#e5e5e5',
         success: '#22C55E',
         warning: '#F59E0B',
         error: '#EF6B6B',
       },
       defaultValue: {
-        primary: '#2D4A5E',
-        secondary: '#A8DDF2',
-        accent: '#7EC8EB',
-        background: '#F5FAFE',
-        surface: '#FFFFFF',
-        text: '#2D4A5E',
-        textMuted: '#6B8FA3',
-        header: '#FFFFFF',
-        footer: '#E8F4FC',
-        button: '#3A9FD4',
-        buttonText: '#FFFFFF',
-        link: '#3A9FD4',
-        card: '#FFFFFF',
-        border: '#C8E4F2',
+        primary: '#111111',
+        secondary: '#f5f5f5',
+        accent: '#111111',
+        background: '#ffffff',
+        surface: '#ffffff',
+        text: '#111111',
+        textMuted: '#666666',
+        header: '#ffffff',
+        footer: '#fafafa',
+        button: '#111111',
+        buttonText: '#ffffff',
+        link: '#111111',
+        card: '#ffffff',
+        border: '#e5e5e5',
         success: '#22C55E',
         warning: '#F59E0B',
         error: '#EF6B6B',
@@ -166,8 +166,8 @@ async function main() {
     // Layout
     {
       key: 'home_layout_blocks',
-      value: ['hero_slider', 'featured_products', 'categories', 'lookbook', 'banner', 'new_arrivals', 'blog_posts', 'newsletter'],
-      defaultValue: ['hero_slider', 'featured_products', 'categories', 'lookbook', 'banner', 'new_arrivals'],
+      value: ['categories'],
+      defaultValue: ['categories'],
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.MODULE,
       label: 'بلوک‌های صفحه اصلی',
@@ -175,37 +175,9 @@ async function main() {
     {
       key: 'hero_slider',
       value: {
-        enabled: true,
-        slides: [
-          {
-            mediaType: 'image',
-            image: '/images/slides/hero-sky-collection.jpg',
-            video: '',
-            title: 'کلکسیون آبی آسمانی',
-            subtitle: 'لباس‌های زنانه مدرن با طراحی انتزاعی و ظرافت بی‌نظیر',
-            link: '/products',
-            buttonText: 'مشاهده کلکسیون',
-          },
-          {
-            mediaType: 'image',
-            image: '/images/slides/hero-elegant-style.jpg',
-            video: '',
-            title: 'استایل شیک و رسمی',
-            subtitle: 'مانتو، بلیزر و ست‌های دو تکه برای هر موقعیت',
-            link: '/products',
-            buttonText: 'خرید کنید',
-          },
-          {
-            mediaType: 'image',
-            image: '/images/slides/hero-new-season.jpg',
-            video: '',
-            title: 'فصل جدید نکال',
-            subtitle: 'جدیدترین طراحی‌ها با الهام از هنر و مد معاصر',
-            link: '/products',
-            buttonText: 'اکنون کشف کنید',
-          },
-        ],
-        autoplay: true,
+        enabled: false,
+        slides: [],
+        autoplay: false,
         interval: 5000,
       },
       defaultValue: {
@@ -222,16 +194,16 @@ async function main() {
     },
     {
       key: 'announcement_bar',
-      value: { enabled: true, text: { fa: 'ارسال رایگان بالای ۱ میلیون تومان · Spring Collection · Women\'s Fashion Boutique', en: 'Free shipping over 1M' }, link: '/products' },
-      defaultValue: { enabled: true, text: { fa: 'ارسال رایگان بالای ۱ میلیون تومان', en: 'Free shipping' }, link: '' },
+      value: { enabled: false, text: { fa: '', en: '' }, link: '' },
+      defaultValue: { enabled: false, text: { fa: '', en: '' }, link: '' },
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.COMPONENT,
       label: 'نوار اعلان هدر',
     },
     {
       key: 'banner_config',
-      value: { enabled: true, label: { fa: 'Free Shipping', en: 'Free Shipping' }, title: { fa: 'ارسال رایگان بالای ۱ میلیون تومان', en: 'Free Shipping' }, subtitle: { fa: 'همین حالا از جدیدترین مجموعه‌های فصل خرید کنید', en: '' }, buttonText: { fa: 'شروع خرید', en: 'Shop Now' }, buttonLink: '/products' },
-      defaultValue: { enabled: true, label: { fa: 'Free Shipping', en: '' }, title: { fa: 'ارسال رایگان', en: '' }, subtitle: { fa: '', en: '' }, buttonText: { fa: 'خرید', en: '' }, buttonLink: '/products' },
+      value: { enabled: false, label: { fa: '', en: '' }, title: { fa: '', en: '' }, subtitle: { fa: '', en: '' }, buttonText: { fa: '', en: '' }, buttonLink: '/products' },
+      defaultValue: { enabled: false, label: { fa: '', en: '' }, title: { fa: '', en: '' }, subtitle: { fa: '', en: '' }, buttonText: { fa: '', en: '' }, buttonLink: '/products' },
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.COMPONENT,
       label: 'بنر تبلیغاتی صفحه اصلی',
@@ -241,10 +213,10 @@ async function main() {
       value: {
         featured_products: { label: { fa: 'Featured', en: 'Featured' }, title: { fa: 'منتخب ویژه', en: '' }, subtitle: { fa: 'برگزیده‌های فصل', en: '' }, linkText: { fa: 'همه محصولات', en: '' } },
         categories: { label: { fa: 'Shop by Category', en: '' }, title: { fa: 'کالکشن‌های زنانه', en: '' }, subtitle: { fa: 'مانتو، تونیک، ست رسمی و شال و روسری', en: '' }, linkText: { fa: 'مشاهده همه', en: '' } },
-        new_arrivals: { label: { fa: 'New Arrivals', en: '' }, title: { fa: 'جدیدترین‌ها', en: '' }, subtitle: { fa: 'تازه‌ترین استایل‌های فصل', en: '' }, linkText: { fa: 'مشاهده همه', en: '' } },
+        new_arrivals: { label: { fa: 'New In', en: 'New In' }, title: { fa: 'جدیدترین‌ها', en: 'New In' }, subtitle: { fa: 'New In', en: 'New In' }, linkText: { fa: 'مشاهده همه', en: 'View All' } },
         blog_posts: { label: { fa: 'Editorial', en: '' }, title: { fa: 'مجله مد', en: '' }, subtitle: { fa: 'ترندها و الهام استایل', en: '' }, linkText: { fa: 'همه مقالات', en: '' } },
         lookbook: { label: { fa: 'Lookbook', en: '' }, title: { fa: 'لوک‌بوک', en: '' }, subtitle: { fa: 'الهام استایل از مجموعه نکال', en: '' }, linkText: { fa: 'مشاهده همه', en: '' } },
-        products_page: { label: { fa: 'Shop All', en: '' }, title: { fa: 'فروشگاه', en: '' }, subtitle: { fa: 'کشف مجموعه کامل محصولات', en: '' } },
+        products_page: { label: { fa: '', en: '' }, title: { fa: 'فروشگاه', en: '' }, subtitle: { fa: '', en: '' } },
         blog_page: { label: { fa: 'Magazine', en: '' }, title: { fa: 'مجله مد نکال', en: '' }, subtitle: { fa: 'ترندها و راهنمای استایل', en: '' } },
       },
       defaultValue: {},
@@ -254,7 +226,17 @@ async function main() {
     },
     {
       key: 'contact_info',
-      value: { email: 'info@necoll.ir', phone: '021-12345678', phoneDisplay: '۰۲۱-۱۲۳۴۵۶۷۸', address: { fa: 'تهران، ایران', en: 'Tehran, Iran' } },
+      value: {
+        email: 'info@necoll.ir',
+        phone: '',
+        phoneDisplay: '',
+        address: { fa: 'شیراز، مجتمع اهورا، طبقه همکف، پلاک ۹', en: 'Shiraz, Ahura Complex' },
+        tagline: { fa: 'Be Your Best', en: 'Be Your Best' },
+        brandSince: '2024',
+        instagramHandle: 'necoll____',
+        telegramHandle: 'necoll1234',
+        branches: [],
+      },
       defaultValue: { email: 'info@necoll.ir', phone: '', phoneDisplay: '', address: { fa: '', en: '' } },
       category: ConfigCategory.GENERAL,
       layer: ConfigLayer.MODULE,
@@ -262,11 +244,7 @@ async function main() {
     },
     {
       key: 'footer_services',
-      value: [
-        { fa: 'ارسال سریع به سراسر کشور', en: 'Fast nationwide shipping' },
-        { fa: 'ضمانت اصالت کالا', en: 'Authenticity guarantee' },
-        { fa: '۷ روز مهلت مرجوعی', en: '7-day returns' },
-      ],
+      value: [],
       defaultValue: [],
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.COMPONENT,
@@ -275,24 +253,20 @@ async function main() {
     {
       key: 'lookbook_config',
       value: {
-        enabled: true,
+        enabled: false,
         pageTitle: { fa: 'لوک‌بوک', en: 'Lookbook' },
-        pageSubtitle: { fa: 'الهام استایل از مجموعه نکال', en: '' },
-        items: [
-          { id: '1', image: '/images/products/navy-marble-tunic.png', video: '', mediaType: 'image', title: { fa: 'تونیک طرح سنگ مرمر', en: 'Marble Print Tunic' }, subtitle: { fa: 'الگوی انتزاعی آبی', en: '' }, link: '/products/navy-marble-tunic' },
-          { id: '2', image: '/images/products/geometric-blazer-set.png', video: '', mediaType: 'image', title: { fa: 'ست بلیزر طرح هندسی', en: 'Geometric Blazer' }, subtitle: { fa: 'استایل مدرن و شیک', en: '' }, link: '/products/geometric-blazer-set' },
-          { id: '3', image: '/images/products/mustard-lace-manteau.png', video: '', mediaType: 'image', title: { fa: 'مانتو زرد خردلی', en: 'Mustard Lace Manteau' }, subtitle: { fa: 'گلدوزی تور مشکی', en: '' }, link: '/products/mustard-lace-manteau' },
-        ],
+        pageSubtitle: { fa: '', en: '' },
+        items: [],
       },
-      defaultValue: { enabled: true, pageTitle: { fa: 'لوک‌بوک', en: '' }, pageSubtitle: { fa: '', en: '' }, items: [] },
+      defaultValue: { enabled: false, pageTitle: { fa: 'لوک‌بوک', en: '' }, pageSubtitle: { fa: '', en: '' }, items: [] },
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.COMPONENT,
       label: 'لوک‌بوک',
     },
     {
       key: 'newsletter_config',
-      value: { enabled: true, label: { fa: 'Newsletter', en: '' }, title: { fa: 'عضویت در خبرنامه', en: '' }, subtitle: { fa: 'از تخفیف‌ها و کالکشن‌های جدید باخبر شوید', en: '' }, placeholder: 'ایمیل شما', buttonText: { fa: 'عضویت', en: 'Subscribe' } },
-      defaultValue: { enabled: true, label: { fa: 'Newsletter', en: '' }, title: { fa: 'عضویت در خبرنامه', en: '' }, subtitle: { fa: '', en: '' }, placeholder: 'email', buttonText: { fa: 'عضویت', en: '' } },
+      value: { enabled: false, label: { fa: '', en: '' }, title: { fa: '', en: '' }, subtitle: { fa: '', en: '' }, placeholder: '', buttonText: { fa: '', en: '' } },
+      defaultValue: { enabled: false, label: { fa: '', en: '' }, title: { fa: '', en: '' }, subtitle: { fa: '', en: '' }, placeholder: 'email', buttonText: { fa: '', en: '' } },
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.COMPONENT,
       label: 'تنظیمات خبرنامه',
@@ -307,8 +281,8 @@ async function main() {
     },
     {
       key: 'mobile_nav_config',
-      value: { enabled: true, useNavigation: true, maxItems: 5 },
-      defaultValue: { enabled: true, useNavigation: true, maxItems: 5 },
+      value: { enabled: false, useNavigation: true, maxItems: 4 },
+      defaultValue: { enabled: false, useNavigation: true, maxItems: 4 },
       category: ConfigCategory.NAVIGATION,
       layer: ConfigLayer.COMPONENT,
       label: 'ناوبری موبایل',
@@ -316,15 +290,43 @@ async function main() {
     {
       key: 'category_display',
       value: {
-        manteau: { image: '/images/categories/manteau.png', gradient: 'linear-gradient(160deg, #E8F6FC 0%, #A8DDF2 100%)' },
-        'tunic-blouse': { image: '/images/categories/tunic-blouse.png', gradient: 'linear-gradient(160deg, #D6EFF9 0%, #7EC8EB 100%)' },
-        'formal-set': { image: '/images/categories/formal-set.png', gradient: 'linear-gradient(160deg, #C8EBF7 0%, #3A9FD4 55%, #A8DDF2 100%)' },
-        'shawl-scarf': { image: '/images/categories/shawl-scarf.png', gradient: 'linear-gradient(160deg, #F5E6D8 0%, #E8DCC8 50%, #A8DDF2 100%)' },
+        manteau: { image: '/images/categories/manteau.png' },
+        'tunic-blouse': { image: '/images/categories/tunic-blouse.png' },
+        'formal-set': { image: '/images/categories/formal-set.png' },
+        'shawl-scarf': { image: '/images/categories/shawl-scarf.png' },
+        clothing: { image: '/images/home/clothing.png' },
+        scarves: { image: '/images/home/scarves.png' },
+        accessories: { image: '/images/home/accessories.png' },
+        sports: { image: '/images/home/sports.png' },
+        'shoes-bags': { image: '/images/home/shoes-bags.png' },
+        featured: { image: '/images/home/limited.png' },
+        outlet: { image: '/images/home/outlet.png' },
+        rosari: { image: '/images/categories/shawl-scarf.png' },
+        shal: { image: '/images/categories/shawl-scarf.png' },
+        socks: { image: '/images/home/accessories.png' },
+        tote: { image: '/images/products/leather-bag-brown.png' },
       },
       defaultValue: {},
       category: ConfigCategory.LAYOUT,
       layer: ConfigLayer.COMPONENT,
       label: 'نمایش دسته‌بندی‌ها',
+    },
+    {
+      key: 'home_categories',
+      value: [
+        { fa: 'جدید', en: 'New In', image: '/images/home/new-in.png', link: '/products' },
+        { fa: 'لیمیتد کالکشن', en: 'Limited Collection', image: '/images/home/limited.png', link: '/products?featured=true' },
+        { fa: 'پوشاک', en: 'Clothing', image: '/images/home/clothing.png', link: '/products?section=clothing' },
+        { fa: 'روسری و شال', en: 'Scarves & Shawls', image: '/images/home/scarves.png', link: '/products?section=scarves' },
+        { fa: 'کیف و کفش', en: 'Shoes & Bags', image: '/images/home/shoes-bags.png', link: '/products?section=shoes-bags' },
+        { fa: 'ورزشی', en: 'Sports', image: '/images/home/sports.png', link: '/products?section=sports' },
+        { fa: 'اکسسوری', en: 'Accessories', image: '/images/home/accessories.png', link: '/products?section=accessories' },
+        { fa: 'اوت لت', en: 'Outlet', image: '/images/home/outlet.png', link: '/products?sale=true' },
+      ],
+      defaultValue: [],
+      category: ConfigCategory.LAYOUT,
+      layer: ConfigLayer.COMPONENT,
+      label: 'دسته‌های صفحه اصلی',
     },
 
     // Product fields
@@ -341,16 +343,16 @@ async function main() {
     {
       key: 'social_links',
       value: {
-        telegram: 'https://t.me/necoll_shop',
-        instagram: 'https://instagram.com/necoll_shop',
-        whatsapp: 'https://wa.me/989123456789',
+        telegram: 'https://t.me/necoll1234',
+        instagram: 'https://instagram.com/necoll____',
+        whatsapp: '',
         bale: '',
         rubika: '',
       },
       defaultValue: {
-        telegram: 'https://t.me/necoll_shop',
-        instagram: 'https://instagram.com/necoll_shop',
-        whatsapp: 'https://wa.me/989123456789',
+        telegram: 'https://t.me/necoll1234',
+        instagram: 'https://instagram.com/necoll____',
+        whatsapp: '',
         bale: '',
         rubika: '',
       },
@@ -360,8 +362,8 @@ async function main() {
     },
     {
       key: 'social_enabled',
-      value: { telegram: true, instagram: true, whatsapp: true, bale: false, rubika: false },
-      defaultValue: { telegram: true, instagram: true, whatsapp: true, bale: false, rubika: false },
+      value: { telegram: true, instagram: true, whatsapp: false, bale: false, rubika: false },
+      defaultValue: { telegram: true, instagram: true, whatsapp: false, bale: false, rubika: false },
       category: ConfigCategory.SOCIAL,
       layer: ConfigLayer.MODULE,
       label: 'فعال‌سازی شبکه‌ها',
@@ -486,8 +488,8 @@ async function main() {
     // AI Chat
     {
       key: 'ai_chat_enabled',
-      value: true,
-      defaultValue: true,
+      value: false,
+      defaultValue: false,
       category: ConfigCategory.SUPPORT,
       layer: ConfigLayer.MODULE,
       label: 'چت هوش مصنوعی',
@@ -556,12 +558,13 @@ async function main() {
     {
       key: 'footer_config',
       value: {
-        columns: [
-          { title: 'درباره نکال', links: [{ label: 'درباره ما', url: '/about' }, { label: 'تماس', url: '/contact' }] },
-          { title: 'خدمات', links: [{ label: 'ارسال', url: '/blog/free-shipping-guide' }, { label: 'مرجوعی', url: '/blog/return-policy' }] },
-          { title: 'قوانین', links: [{ label: 'حریم خصوصی', url: '/privacy' }, { label: 'شرایط', url: '/terms' }] },
+        columns: [],
+        links: [
+          { label: 'همکاری با ما', url: '/partnership' },
+          { label: 'شرایط و قوانین', url: '/terms' },
         ],
-        copyright: '© ۱۴۰۴ فروشگاه نکال. تمامی حقوق محفوظ است.',
+        trustBadgeImage: '/enamad.png',
+        copyright: '© ۱۴۰۴ Necoll. تمامی حقوق محفوظ است.',
         showSocial: true,
       },
       defaultValue: {
@@ -600,11 +603,13 @@ async function main() {
     { slug: 'gallery', name: 'گالری', description: 'گالری تصاویر', sortOrder: 7 },
   ];
 
+  const activeModules = new Set(['shop']);
+
   for (const mod of modules) {
     await prisma.module.upsert({
       where: { slug: mod.slug },
-      update: { name: mod.name, description: mod.description, sortOrder: mod.sortOrder, isActive: true },
-      create: { ...mod, isActive: true },
+      update: { name: mod.name, description: mod.description, sortOrder: mod.sortOrder, isActive: activeModules.has(mod.slug) },
+      create: { ...mod, isActive: activeModules.has(mod.slug) },
     });
   }
 
@@ -648,6 +653,8 @@ async function main() {
     { slug: 'tunic-blouse', name: { fa: 'تونیک و بلوز', en: 'Tunics & Blouses' }, image: '/images/categories/tunic-blouse.png', showInHeader: true, sortOrder: 2 },
     { slug: 'formal-set', name: { fa: 'ست رسمی', en: 'Formal Sets' }, image: '/images/categories/formal-set.png', showInHeader: true, sortOrder: 3 },
     { slug: 'shawl-scarf', name: { fa: 'شال و روسری', en: 'Shawls & Scarves' }, image: '/images/categories/shawl-scarf.png', showInHeader: true, sortOrder: 4 },
+    { slug: 'bags', name: { fa: 'کیف', en: 'Bags' }, image: '/images/products/leather-bag-brown.png', showInHeader: false, sortOrder: 5 },
+    { slug: 'socks', name: { fa: 'جوراب', en: 'Socks' }, image: '/images/home/accessories.png', showInHeader: false, sortOrder: 6 },
   ];
 
   const categoryIds: Record<string, string> = {};
@@ -682,8 +689,8 @@ async function main() {
       stock: 12,
       isFeatured: true,
       categoryId: categoryIds['formal-set'],
-      dynamicFields: { size: 'M-L', color: 'مشکی', fabric: 'پارچه ترکیبی', country: 'ایران', warranty: '۷ روز مهلت تست' },
-      images: ['/images/products/pinstripe-suit-set.png'],
+      dynamicFields: { menuSection: 'clothing', size: 'M-L', color: 'مشکی', fabric: 'پارچه ترکیبی', country: 'ایران', warranty: '۷ روز مهلت تست' },
+      images: ['/images/products/pinstripe-suit-set.jpg'],
     },
     {
       slug: 'vani-mode-black-set',
@@ -694,8 +701,8 @@ async function main() {
       stock: 15,
       isFeatured: true,
       categoryId: categoryIds['formal-set'],
-      dynamicFields: { size: 'S-M', color: 'مشکی', fabric: 'کرپ', country: 'ایران' },
-      images: ['/images/products/vani-mode-black-set.png'],
+      dynamicFields: { menuSection: 'clothing', size: 'S-M', color: 'مشکی', fabric: 'کرپ', country: 'ایران' },
+      images: ['/images/products/vani-mode-black-set.jpg'],
     },
     {
       slug: 'gold-button-blazer-set',
@@ -706,44 +713,8 @@ async function main() {
       stock: 8,
       isFeatured: true,
       categoryId: categoryIds['formal-set'],
-      dynamicFields: { size: 'M', color: 'مشکی', fabric: 'ویسکوز پشم', country: 'ترکیه', warranty: '۷ روز مهلت تست' },
-      images: ['/images/products/gold-button-blazer-set.png'],
-    },
-    {
-      slug: 'altun-black-manteau',
-      name: { fa: 'مانتو بافت‌دار مشکی Altun — کد ۷۹۰', en: 'Altun Textured Black Manteau' },
-      description: { fa: 'مانتو مشکی بافت‌دار با یقه انگلیسی و جیب‌های تزئینی. کد محصول ۷۹۰ — کالکشن جدید Altun.' },
-      price: 1950000,
-      comparePrice: 2350000,
-      stock: 20,
-      isFeatured: true,
-      categoryId: categoryIds.manteau,
-      dynamicFields: { size: 'Free Size', color: 'مشکی', fabric: 'بافت ریز', country: 'ایران' },
-      images: ['/images/products/altun-black-manteau.png'],
-    },
-    {
-      slug: 'navy-marble-tunic',
-      name: { fa: 'تونیک طرح سنگ مرمر سرمه‌ای', en: 'Navy Marble Print Tunic' },
-      description: { fa: 'تونیک سه‌ربع آستین با الگوی انتزاعی سنگ مرمر در ترکیب سرمه‌ای و کرم. استایل مدرن و ظریف برای روزمره و مهمانی.' },
-      price: 1680000,
-      comparePrice: 2100000,
-      stock: 18,
-      isFeatured: true,
-      categoryId: categoryIds['tunic-blouse'],
-      dynamicFields: { size: 'M-L', color: 'سرمه‌ای', fabric: 'نخ پنبه', country: 'ایران' },
-      images: ['/images/products/navy-marble-tunic.png'],
-    },
-    {
-      slug: 'navy-leaf-tunic',
-      name: { fa: 'تونیک گل‌برگی سرمه‌ای', en: 'Navy Leaf Print Tunic' },
-      description: { fa: 'تونیک یقه‌دار با طرح برگ‌های طلایی روی زمینه سرمه‌ای. مناسب استایل مجلسی و روزمره شیک.' },
-      price: 1750000,
-      comparePrice: 2200000,
-      stock: 14,
-      isFeatured: true,
-      categoryId: categoryIds['tunic-blouse'],
-      dynamicFields: { size: 'S-M', color: 'سرمه‌ای', fabric: 'کرپ مخمل', country: 'ایران' },
-      images: ['/images/products/navy-leaf-tunic.png'],
+      dynamicFields: { menuSection: 'clothing', size: 'M', color: 'مشکی', fabric: 'ویسکوز پشم', country: 'ترکیه', warranty: '۷ روز مهلت تست' },
+      images: ['/images/products/gold-button-blazer-set.jpg'],
     },
     {
       slug: 'geometric-blazer-set',
@@ -754,8 +725,8 @@ async function main() {
       stock: 10,
       isFeatured: true,
       categoryId: categoryIds['formal-set'],
-      dynamicFields: { size: 'M', color: 'مشکی', fabric: 'پارچه ترکیبی', country: 'ترکیه' },
-      images: ['/images/products/geometric-blazer-set.png'],
+      dynamicFields: { menuSection: 'sports', menuItem: 'sport-set', size: 'M', color: 'مشکی', fabric: 'پارچه ترکیبی', country: 'ترکیه' },
+      images: ['/images/products/geometric-blazer-set.jpg'],
     },
     {
       slug: 'artistic-print-jacket',
@@ -766,8 +737,44 @@ async function main() {
       stock: 9,
       isFeatured: false,
       categoryId: categoryIds['formal-set'],
-      dynamicFields: { size: 'M-L', color: 'چندرنگ', fabric: 'پلی‌استر ویسکوز', country: 'ایران' },
-      images: ['/images/products/artistic-print-jacket.png'],
+      dynamicFields: { menuSection: 'sports', menuItem: 'sport-set', size: 'M-L', color: 'چندرنگ', fabric: 'پلی‌استر ویسکوز', country: 'ایران' },
+      images: ['/images/products/artistic-print-jacket.jpg'],
+    },
+    {
+      slug: 'altun-black-manteau',
+      name: { fa: 'مانتو بافت‌دار مشکی Altun — کد ۷۹۰', en: 'Altun Textured Black Manteau' },
+      description: { fa: 'مانتو مشکی بافت‌دار با یقه انگلیسی و جیب‌های تزئینی. کد محصول ۷۹۰ — کالکشن جدید Altun.' },
+      price: 1950000,
+      comparePrice: 2350000,
+      stock: 20,
+      isFeatured: true,
+      categoryId: categoryIds.manteau,
+      dynamicFields: { menuSection: 'sports', size: 'Free Size', color: 'مشکی', fabric: 'بافت ریز', country: 'ایران' },
+      images: ['/images/products/altun-black-manteau.jpg'],
+    },
+    {
+      slug: 'navy-marble-tunic',
+      name: { fa: 'تونیک طرح سنگ مرمر سرمه‌ای', en: 'Navy Marble Print Tunic' },
+      description: { fa: 'تونیک سه‌ربع آستین با الگوی انتزاعی سنگ مرمر در ترکیب سرمه‌ای و کرم. استایل مدرن و ظریف برای روزمره و مهمانی.' },
+      price: 1680000,
+      comparePrice: 2100000,
+      stock: 18,
+      isFeatured: true,
+      categoryId: categoryIds['tunic-blouse'],
+      dynamicFields: { menuSection: 'clothing', size: 'M-L', color: 'سرمه‌ای', fabric: 'نخ پنبه', country: 'ایران' },
+      images: ['/images/products/navy-marble-tunic.jpg'],
+    },
+    {
+      slug: 'navy-leaf-tunic',
+      name: { fa: 'تونیک گل‌برگی سرمه‌ای', en: 'Navy Leaf Print Tunic' },
+      description: { fa: 'تونیک یقه‌دار با طرح برگ‌های طلایی روی زمینه سرمه‌ای. مناسب استایل مجلسی و روزمره شیک.' },
+      price: 1750000,
+      comparePrice: 2200000,
+      stock: 14,
+      isFeatured: true,
+      categoryId: categoryIds['tunic-blouse'],
+      dynamicFields: { menuSection: 'clothing', size: 'S-M', color: 'سرمه‌ای', fabric: 'کرپ مخمل', country: 'ایران' },
+      images: ['/images/products/navy-leaf-tunic.jpg'],
     },
     {
       slug: 'mustard-lace-manteau',
@@ -778,8 +785,8 @@ async function main() {
       stock: 11,
       isFeatured: true,
       categoryId: categoryIds.manteau,
-      dynamicFields: { size: 'Free Size', color: 'زرد خردلی', fabric: 'کرپ با تور', country: 'ایران', warranty: '۷ روز مهلت تست' },
-      images: ['/images/products/mustard-lace-manteau.png'],
+      dynamicFields: { menuSection: 'clothing', size: 'Free Size', color: 'زرد خردلی', fabric: 'کرپ با تور', country: 'ایران', warranty: '۷ روز مهلت تست' },
+      images: ['/images/products/mustard-lace-manteau.jpg'],
     },
     {
       slug: 'wool-scarf',
@@ -790,8 +797,20 @@ async function main() {
       stock: 30,
       isFeatured: false,
       categoryId: categoryIds['shawl-scarf'],
-      dynamicFields: { color: 'مشکی و سفید', fabric: 'پشم مرینو', country: 'ترکیه' },
-      images: ['/images/products/wool-scarf.png'],
+      dynamicFields: { menuSection: 'scarves', menuItem: 'shal', color: 'مشکی و سفید', fabric: 'پشم مرینو', country: 'ترکیه' },
+      images: ['/images/products/wool-scarf.jpg'],
+    },
+    {
+      slug: 'silk-rosari',
+      name: { fa: 'روسری ابریشمی گل‌دار', en: 'Floral Silk Scarf' },
+      description: { fa: 'روسری ابریشمی سبک با طرح گل‌های ظریف. مناسب استایل روزمره و مهمانی.' },
+      price: 390000,
+      comparePrice: 490000,
+      stock: 25,
+      isFeatured: false,
+      categoryId: categoryIds['shawl-scarf'],
+      dynamicFields: { menuSection: 'scarves', menuItem: 'rosari', color: 'کرم و صورتی', fabric: 'ابریشم', country: 'ایران' },
+      images: ['/images/products/silk-rosari.jpg'],
     },
     {
       slug: 'leather-bag-brown',
@@ -801,9 +820,33 @@ async function main() {
       comparePrice: 1500000,
       stock: 8,
       isFeatured: false,
-      categoryId: categoryIds['shawl-scarf'],
-      dynamicFields: { color: 'طوسی تیره', fabric: 'چرم مصنوعی', country: 'ایران', warranty: '۶ ماه' },
-      images: ['/images/products/leather-bag-brown.png'],
+      categoryId: categoryIds.bags,
+      dynamicFields: { menuSection: 'shoes-bags', menuItem: 'bags', color: 'قهوه‌ای', fabric: 'چرم مصنوعی', country: 'ایران', warranty: '۶ ماه' },
+      images: ['/images/products/leather-bag-brown.jpg'],
+    },
+    {
+      slug: 'cotton-socks-set',
+      name: { fa: 'جوراب نخی سه‌تایی', en: 'Cotton Socks 3-Pack' },
+      description: { fa: 'ست سه‌تایی جوراب نخی نرم و راحت در رنگ‌های خنثی. مناسب استفاده روزمره.' },
+      price: 180000,
+      comparePrice: 240000,
+      stock: 40,
+      isFeatured: false,
+      categoryId: categoryIds.socks,
+      dynamicFields: { menuSection: 'accessories', menuItem: 'socks', color: 'سفید و مشکی', fabric: 'نخ پنبه', country: 'ایران' },
+      images: ['/images/products/cotton-socks-set.jpg'],
+    },
+    {
+      slug: 'canvas-tote-bag',
+      name: { fa: 'توت‌بگ کتان', en: 'Canvas Tote Bag' },
+      description: { fa: 'توت‌بگ کتان سبک با بند دوشی. مناسب خرید روزانه و استایل کژوال.' },
+      price: 420000,
+      comparePrice: 520000,
+      stock: 18,
+      isFeatured: false,
+      categoryId: categoryIds.bags,
+      dynamicFields: { menuSection: 'accessories', menuItem: 'tote', color: 'بژ', fabric: 'کتان', country: 'ایران' },
+      images: ['/images/products/canvas-tote-bag.jpg'],
     },
   ];
 
@@ -832,27 +875,165 @@ async function main() {
     data: { isActive: false, isFeatured: false },
   });
 
-  // ═══ Navigation ═══
-  const navItems = [
+  // ═══ Navigation (Monaie-style) ═══
+  await prisma.navigationItem.updateMany({ data: { isActive: false } });
+
+  async function upsertNavItem(
+    item: { label: { fa: string; en: string }; url: string; sortOrder: number; isActive?: boolean },
+    parentId?: string
+  ) {
+    const existing = await prisma.navigationItem.findFirst({
+      where: { url: item.url, parentId: parentId ?? null },
+    });
+    const data = {
+      label: item.label,
+      url: item.url,
+      sortOrder: item.sortOrder,
+      isActive: item.isActive ?? true,
+      parentId: parentId ?? null,
+    };
+    if (existing) {
+      return prisma.navigationItem.update({ where: { id: existing.id }, data });
+    }
+    return prisma.navigationItem.create({ data });
+  }
+
+  const clothingParent = await upsertNavItem(
+    { label: { fa: 'پوشاک', en: 'Clothing' }, url: '/products?section=clothing', sortOrder: 4 },
+  );
+  const scarvesParent = await upsertNavItem(
+    { label: { fa: 'روسری و شال', en: 'Scarves & Shawls' }, url: '/products?section=scarves', sortOrder: 5 },
+  );
+  const accessoryParent = await upsertNavItem(
+    { label: { fa: 'اکسسوری', en: 'Accessories' }, url: '/products?section=accessories', sortOrder: 6 },
+  );
+  const sportsParent = await upsertNavItem(
+    { label: { fa: 'پوشاک ورزشی', en: 'Sports' }, url: '/products?section=sports', sortOrder: 7 },
+  );
+  const shoesParent = await upsertNavItem(
+    { label: { fa: 'کیف و کفش', en: 'Shoes & Bags' }, url: '/products?section=shoes-bags', sortOrder: 8 },
+  );
+
+  const topNav = [
     { label: { fa: 'خانه', en: 'Home' }, url: '/', sortOrder: 1 },
     { label: { fa: 'فروشگاه', en: 'Shop' }, url: '/products', sortOrder: 2 },
-    { label: { fa: 'لوک‌بوک', en: 'Lookbook' }, url: '/lookbook', sortOrder: 3 },
-    { label: { fa: 'وبلاگ', en: 'Blog' }, url: '/blog', sortOrder: 4 },
-    { label: { fa: 'درباره ما', en: 'About' }, url: '/about', sortOrder: 5 },
-    { label: { fa: 'تماس', en: 'Contact' }, url: '/contact', sortOrder: 6 },
+    { label: { fa: 'لیمیتد کالکشن', en: 'Limited Collection' }, url: '/products?featured=true', sortOrder: 3 },
+    { label: { fa: 'پشتیبانی', en: 'Support' }, url: '/contact', sortOrder: 9 },
+    { label: { fa: 'درباره ما', en: 'About' }, url: '/about', sortOrder: 10 },
+    { label: { fa: 'نکال کلاب', en: 'Necoll Club' }, url: '/club', sortOrder: 11 },
+    { label: { fa: 'ورود / عضویت', en: 'Login' }, url: '/account', sortOrder: 12 },
   ];
 
-  for (const item of navItems) {
-    const existing = await prisma.navigationItem.findFirst({ where: { url: item.url } });
-    if (existing) {
-      await prisma.navigationItem.update({
-        where: { id: existing.id },
-        data: { label: item.label, sortOrder: item.sortOrder, isActive: true },
-      });
-    } else {
-      await prisma.navigationItem.create({ data: { ...item, isActive: true } });
+  for (const item of topNav) {
+    await upsertNavItem(item);
+  }
+
+  const clothingChildren = [
+    { label: { fa: 'مانتو', en: 'Manteau' }, slug: 'manteau' },
+    { label: { fa: 'تونیک و بلوز', en: 'Tunics & Blouses' }, slug: 'tunic-blouse' },
+    { label: { fa: 'ست رسمی', en: 'Formal Sets' }, slug: 'formal-set' },
+  ];
+  for (const [i, child] of clothingChildren.entries()) {
+    await upsertNavItem(
+      {
+        label: child.label,
+        url: `/products?section=clothing&category=${categoryIds[child.slug]}`,
+        sortOrder: i + 1,
+      },
+      clothingParent.id
+    );
+  }
+
+  const scarvesChildren = [
+    { label: { fa: 'روسری', en: 'Scarves' }, item: 'rosari' },
+    { label: { fa: 'شال', en: 'Shawls' }, item: 'shal' },
+  ];
+  for (const [i, child] of scarvesChildren.entries()) {
+    await upsertNavItem(
+      {
+        label: child.label,
+        url: `/products?section=scarves&item=${child.item}&category=${categoryIds['shawl-scarf']}`,
+        sortOrder: i + 1,
+      },
+      scarvesParent.id
+    );
+  }
+
+  const accessoryChildren = [
+    { label: { fa: 'جوراب', en: 'Socks' }, item: 'socks' },
+    { label: { fa: 'توت‌بگ', en: 'Tote Bags' }, item: 'tote' },
+  ];
+  for (const [i, child] of accessoryChildren.entries()) {
+    await upsertNavItem(
+      {
+        label: child.label,
+        url: `/products?section=accessories&item=${child.item}`,
+        sortOrder: i + 1,
+      },
+      accessoryParent.id
+    );
+  }
+
+  const sportsChildren = [
+    { label: { fa: 'ست ورزشی', en: 'Sport Sets' }, item: 'sport-set' },
+    { label: { fa: 'مانتو', en: 'Manteau' }, slug: 'manteau' },
+  ];
+  for (const [i, child] of sportsChildren.entries()) {
+    const url = child.item
+      ? `/products?section=sports&item=${child.item}`
+      : `/products?section=sports&category=${categoryIds[child.slug!]}`;
+    await upsertNavItem(
+      {
+        label: child.label,
+        url,
+        sortOrder: i + 1,
+      },
+      sportsParent.id
+    );
+  }
+
+  const shoesChildren = [
+    { label: { fa: 'کیف', en: 'Bags' }, item: 'bags' },
+    { label: { fa: 'کفش', en: 'Shoes' }, item: 'shoes' },
+  ];
+  for (const [i, child] of shoesChildren.entries()) {
+    await upsertNavItem(
+      {
+        label: child.label,
+        url: `/products?section=shoes-bags&item=${child.item}`,
+        sortOrder: i + 1,
+      },
+      shoesParent.id
+    );
+  }
+
+  const shopParentIds = [clothingParent.id, scarvesParent.id, accessoryParent.id, sportsParent.id, shoesParent.id];
+  const legacyChildren = await prisma.navigationItem.findMany({
+    where: { parentId: { in: shopParentIds } },
+  });
+  for (const child of legacyChildren) {
+    const sectionMatch = child.url.match(/section=([^&]+)/);
+    const parent = [clothingParent, scarvesParent, accessoryParent, sportsParent, shoesParent].find(
+      (p) => p.id === child.parentId
+    );
+    const parentSection = parent?.url.match(/section=([^&]+)/)?.[1];
+    const isLegacyCategoryOnly = child.url.startsWith('/products?category=') && !child.url.includes('section=');
+    const isWrongSection = parentSection && sectionMatch && sectionMatch[1] !== parentSection;
+    const isAccessoryRosari = parent?.id === accessoryParent.id && !child.url.includes('section=accessories');
+
+    if (isLegacyCategoryOnly || isWrongSection || isAccessoryRosari) {
+      await prisma.navigationItem.update({ where: { id: child.id }, data: { isActive: false } });
     }
   }
+
+  await prisma.navigationItem.updateMany({
+    where: {
+      id: {
+        in: [clothingParent.id, scarvesParent.id, accessoryParent.id, sportsParent.id, shoesParent.id],
+      },
+    },
+    data: { isActive: true },
+  });
 
   // ═══ Route Configs ═══
   const routes = [
@@ -863,6 +1044,12 @@ async function main() {
     { path: '/blog', pageType: 'blog-list', seoConfig: { title: 'مجله مد' } },
     { path: '/about', pageType: 'static', seoConfig: { title: 'درباره ما' } },
     { path: '/contact', pageType: 'static', seoConfig: { title: 'تماس با ما' } },
+    { path: '/branches', pageType: 'static', seoConfig: { title: 'لیست شعب' } },
+    { path: '/careers', pageType: 'static', seoConfig: { title: 'استخدام' } },
+    { path: '/partnership', pageType: 'static', seoConfig: { title: 'همکاری با ما' } },
+    { path: '/terms', pageType: 'static', seoConfig: { title: 'شرایط و قوانین' } },
+    { path: '/club', pageType: 'static', seoConfig: { title: 'نکال کلاب' } },
+    { path: '/account', pageType: 'static', seoConfig: { title: 'ورود / عضویت' } },
     { path: '/cart', pageType: 'cart', seoConfig: { title: 'سبد خرید' } },
     { path: '/checkout', pageType: 'checkout', seoConfig: { title: 'تسویه حساب' } },
   ];
@@ -885,13 +1072,6 @@ async function main() {
       priority: 10,
     },
     {
-      name: 'ارسال رایگان',
-      description: 'نمایش برچسب ارسال رایگان برای قیمت بالا',
-      condition: { field: 'price', operator: 'gte', value: 1000000 },
-      action: { type: 'show_badge', payload: { text: 'ارسال رایگان', color: '#10B981' } },
-      priority: 5,
-    },
-    {
       name: 'تخفیف اولین خرید',
       description: 'کد تخفیف برای خرید اول',
       condition: { field: 'isFirstPurchase', operator: 'eq', value: true },
@@ -899,6 +1079,11 @@ async function main() {
       priority: 8,
     },
   ];
+
+  await prisma.businessRule.updateMany({
+    where: { name: 'ارسال رایگان' },
+    data: { isActive: false },
+  });
 
   for (const rule of rules) {
     const existing = await prisma.businessRule.findFirst({ where: { name: rule.name } });

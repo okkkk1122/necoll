@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-label="Clothing">
+  <rect width="800" height="360" fill="#e8e8e8"/>
+  <rect x="0" y="180" width="800" height="180" fill="#111"/>
+  <path d="M300 40 L340 120 L460 120 L500 40 L540 120 L620 140 L580 320 L220 320 L180 140 Z" fill="#fafafa"/>
+  <path d="M340 120 L460 120 L440 200 L360 200 Z" fill="#111"/>
+  <ellipse cx="400" cy="55" rx="28" ry="18" fill="#fafafa"/>
+  <line x1="100" y1="200" x2="700" y2="200" stroke="#444" stroke-width="0.5" opacity="0.4"/>
+</svg>

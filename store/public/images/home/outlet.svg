@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-label="Outlet">
+  <rect width="800" height="360" fill="#111"/>
+  <g opacity="0.12">
+    <line x1="0" y1="0" x2="800" y2="360" stroke="#fff" stroke-width="40"/>
+    <line x1="800" y1="0" x2="0" y2="360" stroke="#fff" stroke-width="40"/>
+  </g>
+  <rect x="200" y="60" width="400" height="240" fill="none" stroke="#fff" stroke-width="2" opacity="0.5"/>
+  <text x="400" y="195" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="72" font-weight="700" opacity="0.15">%</text>
+  <line x1="0" y1="180" x2="800" y2="180" stroke="#444" stroke-width="1"/>
+</svg>

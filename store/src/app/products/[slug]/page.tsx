@@ -62,7 +62,9 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-4 font-product">{product.name.fa}</h1>
 
-          {product.badges?.map((badge, i) => (
+          {product.badges
+            ?.filter((badge) => badge.payload?.text !== 'ارسال رایگان')
+            .map((badge, i) => (
             <span
               key={i}
               className="inline-block text-xs px-3 py-1 rounded-full text-white mr-2 mb-4"
