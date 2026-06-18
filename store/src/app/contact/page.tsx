@@ -8,7 +8,17 @@ import Link from 'next/link';
 
 export default function ContactPage() {
   const config = useConfig();
+  const contact = config.contact_info as
+    | {
+        email?: string;
+        phone?: string;
+        phoneDisplay?: string;
+        address?: { fa?: string };
+        tagline?: string;
+      }
+    | undefined;
   const social = config.social_links || {};
+  const socialEnabled = config.social_enabled || {};
 
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
@@ -45,22 +55,32 @@ export default function ContactPage() {
           <div className="card p-6">
             <h2 className="font-bold mb-4">اطلاعات تماس</h2>
             <div className="space-y-4 text-sm">
-              <div className="flex items-center gap-3">
-                <Mail size={18} className="text-gray-400" />
-                <span>info@necoll.ir</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone size={18} className="text-gray-400" />
-                <span>۰۲۱-۱۲۳۴۵۶۷۸</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <MapPin size={18} className="text-gray-400" />
-                <span>تهران، ایران</span>
-              </div>
+              {contact?.email && (
+                <div className="flex items-center gap-3">
+                  <Mail size={18} className="text-gray-400" />
+                  <a href={`mailto:${contact.email}`} className="hover:underline" dir="ltr">
+                    {contact.email}
+                  </a>
+                </div>
+              )}
+              {(contact?.phoneDisplay || contact?.phone) && (
+                <div className="flex items-center gap-3">
+                  <Phone size={18} className="text-gray-400" />
+                  <a href={contact.phone || '#'} className="hover:underline">
+                    {contact.phoneDisplay || contact.phone}
+                  </a>
+                </div>
+              )}
+              {contact?.address?.fa && (
+                <div className="flex items-center gap-3">
+                  <MapPin size={18} className="text-gray-400" />
+                  <span>{contact.address.fa}</span>
+                </div>
+              )}
             </div>
           </div>
 
-          {social.telegram && (
+          {socialEnabled.telegram !== false && social.telegram && (
             <div className="card p-6">
               <h2 className="font-bold mb-3">پشتیبانی سریع</h2>
               <a

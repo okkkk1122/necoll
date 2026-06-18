@@ -1,29 +1,38 @@
-# Override برای توسعه محلی — mount کد + hot-reload
-# اجرا: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-# یا در .env: COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+# Override برای توسعه محلی — hot-reload
+# COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
 services:
   backend:
     volumes:
       - ./backend/src:/app/src
       - ./backend/prisma:/app/prisma
+    environment:
+      NODE_ENV: development
 
   store:
-    command: ["npm", "run", "dev"]
-    environment:
-      WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
-      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
+    build:
+      context: ./store
+      dockerfile: Dockerfile.dev
     volumes:
       - ./store/src:/app/src
       - ./store/public:/app/public
+    environment:
+      NODE_ENV: development
 
   admin:
-    command: ["npm", "run", "dev"]
-    environment:
-      WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
-      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
+    build:
+      context: ./admin
+      dockerfile: Dockerfile.dev
     volumes:
       - ./admin/src:/app/src
+      - ./admin/public:/app/public
+    environment:
+      NODE_ENV: development
+
+  minio:
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
 
   adminer:
     image: adminer:latest

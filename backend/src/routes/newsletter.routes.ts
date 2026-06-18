@@ -7,13 +7,13 @@ const router = Router();
 
 router.post('/subscribe', async (req, res) => {
   try {
-    const config = await hyperConfig.get<{ enabled?: boolean }>('newsletter_config');
+    const config = (await hyperConfig.get('newsletter_config')) as { enabled?: boolean } | null;
     if (config?.enabled === false) {
       return res.status(403).json({ error: 'Newsletter is disabled' });
     }
 
     const { email } = z.object({ email: z.string().email() }).parse(req.body);
-    const subscribers = (await hyperConfig.get<string[]>('newsletter_subscribers')) || [];
+    const subscribers = ((await hyperConfig.get('newsletter_subscribers')) as string[] | null) || [];
 
     if (subscribers.includes(email)) {
       return res.json({ success: true, message: 'Already subscribed' });
@@ -28,7 +28,7 @@ router.post('/subscribe', async (req, res) => {
 });
 
 router.get('/subscribers', authenticate, requireRole('SUPER_ADMIN', 'ADMIN'), async (_req, res) => {
-  const subscribers = (await hyperConfig.get<string[]>('newsletter_subscribers')) || [];
+  const subscribers = ((await hyperConfig.get('newsletter_subscribers')) as string[] | null) || [];
   res.json({ count: subscribers.length, subscribers });
 });
 

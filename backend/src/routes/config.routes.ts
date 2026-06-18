@@ -18,10 +18,11 @@ router.get('/public', async (req, res) => {
   }
 });
 
-router.get('/setting/:key', async (req, res) => {
+router.get('/setting/:key', authenticate, requireRole('SUPER_ADMIN', 'ADMIN', 'MANAGER'), async (req, res) => {
   try {
-    const value = await hyperConfig.get(req.params.key, req.query.sandbox as string);
-    res.json({ key: req.params.key, value });
+    const key = req.params.key;
+    const value = await hyperConfig.get(key, req.query.sandbox as string);
+    res.json({ key, value });
   } catch (error) {
     res.status(500).json({ error: 'Failed to load setting' });
   }
@@ -34,6 +35,7 @@ router.get('/settings', async (req, res) => {
   try {
     const category = req.query.category as ConfigCategory | undefined;
     const layer = req.query.layer as ConfigLayer | undefined;
+    const sandboxId = req.query.sandbox as string | undefined;
     const settings = await prisma.setting.findMany({
       where: {
         ...(category && { category }),
@@ -41,6 +43,20 @@ router.get('/settings', async (req, res) => {
       },
       orderBy: [{ category: 'asc' }, { sortOrder: 'asc' }],
     });
+
+    if (sandboxId) {
+      const overrides = await prisma.sandboxOverride.findMany({
+        where: { sandboxSessionId: sandboxId },
+      });
+      const overrideMap = new Map(overrides.map((o) => [o.settingId, o.value]));
+      return res.json(
+        settings.map((s) => ({
+          ...s,
+          value: overrideMap.has(s.id) ? overrideMap.get(s.id) : s.value,
+        }))
+      );
+    }
+
     res.json(settings);
   } catch (error) {
     res.status(500).json({ error: 'Failed to load settings' });

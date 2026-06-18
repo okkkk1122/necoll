@@ -4,47 +4,31 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
-  Settings,
-  Palette,
-  Layout,
-  Package,
-  Puzzle,
-  Navigation,
-  Scale,
-  Plug,
-  Search,
-  Bell,
-  MessageSquare,
   FileText,
-  Star,
+  Settings,
+  Package,
   ShoppingCart,
+  Star,
   Users,
-  FlaskConical,
+  Navigation,
+  Inbox,
   LogOut,
 } from 'lucide-react';
 import { clearToken } from '@/lib/api';
+import { adminUrl, routes } from '@/lib/paths';
 import clsx from 'clsx';
 
 const menuItems = [
-  { href: '/admin', label: 'داشبورد', icon: LayoutDashboard },
-  { href: '/admin/content', label: 'مدیریت محتوا', icon: FileText },
-  { href: '/admin/settings', label: 'تنظیمات HyperConfig', icon: Settings },
-  { href: '/admin/theme', label: 'مدیریت تم', icon: Palette },
-  { href: '/admin/layout-manager', label: 'چیدمان صفحه اصلی', icon: Layout },
-  { href: '/admin/products', label: 'محصولات', icon: Package },
-  { href: '/admin/blog', label: 'وبلاگ', icon: FileText },
-  { href: '/admin/reviews', label: 'نظرات', icon: Star },
-  { href: '/admin/product-fields', label: 'فیلدهای محصول', icon: Package },
-  { href: '/admin/modules', label: 'ماژول‌ها', icon: Puzzle },
-  { href: '/admin/navigation', label: 'ناوبری و مسیرها', icon: Navigation },
-  { href: '/admin/business-rules', label: 'قوانین کسب‌وکار', icon: Scale },
-  { href: '/admin/integrations', label: 'یکپارچگی‌ها', icon: Plug },
-  { href: '/admin/seo', label: 'سئو', icon: Search },
-  { href: '/admin/notifications', label: 'اعلان‌ها', icon: Bell },
-  { href: '/admin/chat', label: 'چت AI', icon: MessageSquare },
-  { href: '/admin/orders', label: 'سفارشات', icon: ShoppingCart },
-  { href: '/admin/users', label: 'کاربران', icon: Users },
-  { href: '/admin/sandbox', label: 'شبیه‌ساز تنظیمات', icon: FlaskConical },
+  { href: routes.home, label: 'داشبورد', icon: LayoutDashboard },
+  { href: routes.content, label: 'محتوا و ظاهر', icon: FileText },
+  { href: routes.products, label: 'فروشگاه', icon: Package },
+  { href: routes.blog, label: 'وبلاگ', icon: FileText },
+  { href: routes.orders, label: 'سفارشات', icon: ShoppingCart },
+  { href: routes.reviews, label: 'نظرات', icon: Star },
+  { href: routes.users, label: 'کاربران', icon: Users },
+  { href: routes.messages, label: 'پیام‌ها', icon: Inbox },
+  { href: routes.navigation, label: 'ناوبری', icon: Navigation },
+  { href: routes.settings, label: 'تنظیمات سیستم', icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -52,20 +36,22 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     clearToken();
-    window.location.href = '/admin/login';
+    window.location.href = adminUrl(routes.login);
   };
 
   return (
     <aside className="w-64 bg-admin-sidebar text-white min-h-screen flex flex-col fixed right-0 top-0 z-40">
       <div className="p-6 border-b border-white/10">
         <h1 className="text-xl font-bold">نکال</h1>
-        <p className="text-xs text-white/50 mt-1">HyperConfig Panel</p>
+        <p className="text-xs text-white/50 mt-1">پنل مدیریت</p>
       </div>
 
       <nav className="flex-1 py-4 overflow-y-auto">
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+          const isActive =
+            pathname === item.href ||
+            (item.href !== routes.home && pathname.startsWith(item.href));
           return (
             <Link
               key={item.href}

@@ -1,0 +1,13 @@
+{
+  "name": "necoll",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:store": "npm run dev --prefix store",
+    "dev:admin": "npm run dev --prefix admin",
+    "dev:backend": "npm run dev --prefix backend",
+    "build:store": "npm run build --prefix store",
+    "build:admin": "npm run build --prefix admin",
+    "build:backend": "npm run build --prefix backend"
+  }
+}

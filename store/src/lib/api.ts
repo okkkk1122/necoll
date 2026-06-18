@@ -8,7 +8,7 @@ export async function fetchAPI<T>(endpoint: string, options?: RequestInit): Prom
       'Content-Type': 'application/json',
       ...options?.headers,
     },
-    next: { revalidate: 60 },
+    next: { revalidate: 10 },
   });
 
   if (!res.ok) {

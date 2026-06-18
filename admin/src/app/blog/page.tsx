@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import { api } from '@/lib/api';
-import { Plus, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { routes } from '@/lib/paths';
+import { Plus, ToggleLeft, ToggleRight, Trash2, Pencil } from 'lucide-react';
 
 interface BlogPost {
   id: string;
@@ -41,9 +43,9 @@ export default function BlogAdminPage() {
           <h1 className="text-2xl font-bold text-admin-primary">مدیریت وبلاگ</h1>
           <p className="text-gray-500 text-sm mt-1">{posts.length} مقاله</p>
         </div>
-        <a href="/admin/blog/edit" className="admin-btn-primary flex items-center gap-1">
+        <Link href={routes.blogEdit} className="admin-btn-primary flex items-center gap-1">
           <Plus size={16} /> مقاله جدید
-        </a>
+        </Link>
       </div>
 
       <div className="space-y-3">
@@ -54,6 +56,9 @@ export default function BlogAdminPage() {
               <p className="text-xs text-gray-400">{post.slug} • {new Date(post.createdAt).toLocaleDateString('fa-IR')}</p>
             </div>
             <div className="flex items-center gap-3">
+              <Link href={`${routes.blogEdit}?slug=${post.slug}`} className="text-gray-500 hover:text-admin-primary">
+                <Pencil size={18} />
+              </Link>
               <button onClick={() => togglePublish(post.id, post.isPublished)}>
                 {post.isPublished ? (
                   <ToggleRight size={24} className="text-green-500" />

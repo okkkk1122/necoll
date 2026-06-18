@@ -1,5 +1,5 @@
-import HomeBlocks from '@/components/HomeBlocks';
+import HomePageLayout from '@/components/HomePageLayout';
 
 export default function HomePage() {
-  return <HomeBlocks />;
+  return <HomePageLayout />;
 }

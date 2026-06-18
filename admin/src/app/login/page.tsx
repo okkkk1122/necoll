@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { api, setToken } from '@/lib/api';
+import { adminUrl, routes } from '@/lib/paths';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('admin@necoll.ir');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +22,7 @@ export default function LoginPage() {
         noAuth: true,
       });
       setToken(res.token);
-      window.location.href = '/admin';
+      window.location.href = adminUrl(routes.home);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'خطا در ورود');
     } finally {

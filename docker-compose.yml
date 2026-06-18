@@ -5,13 +5,13 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-necoll}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-necoll_secret}
-      POSTGRES_DB: ${POSTGRES_DB:-necoll_db}
+      POSTGRES_USER: ${DB_USER:-necoll}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-necoll_secret}
+      POSTGRES_DB: ${DB_NAME:-necoll_db}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-necoll} -d ${POSTGRES_DB:-necoll_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-necoll} -d ${DB_NAME:-necoll_db}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -40,9 +40,6 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-necoll_minio_secret}
     volumes:
       - minio_data:/data
-    ports:
-      - "${MINIO_API_PORT:-9000}:9000"
-      - "${MINIO_CONSOLE_PORT:-9001}:9001"
 
   minio-init:
     image: minio/mc:latest
@@ -76,7 +73,7 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       HOST: ${HOST:-0.0.0.0}
       PORT: ${BACKEND_PORT:-4000}
-      DATABASE_URL: postgresql://${POSTGRES_USER:-necoll}:${POSTGRES_PASSWORD:-necoll_secret}@postgres:5432/${POSTGRES_DB:-necoll_db}
+      DATABASE_URL: postgresql://${DB_USER:-necoll}:${DB_PASSWORD:-necoll_secret}@postgres:5432/${DB_NAME:-necoll_db}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
       JWT_SECRET: ${JWT_SECRET:-necoll_jwt_super_secret_change_in_production}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio}
@@ -84,10 +81,10 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-necoll_minio}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-necoll_minio_secret}
       MINIO_BUCKET: ${MINIO_BUCKET:-necoll-uploads}
-      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL:-http://localhost:9000}
+      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL:-http://localhost/uploads}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3011}
       SITE_URL: ${SITE_URL:-http://localhost:3011}
-      PRISMA_ENGINES_MIRROR: ${PRISMA_ENGINES_MIRROR:-https://registry.npmmirror.com/-/binary/prisma}
+      PRISMA_ENGINES_MIRROR: ${PRISMA_ENGINES_MIRROR:-}
     depends_on:
       postgres:
         condition: service_healthy
@@ -100,7 +97,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 90s
+      start_period: 120s
 
   store:
     build:
@@ -111,11 +108,11 @@ services:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3011}
     container_name: necoll-store
     restart: unless-stopped
-    command: ["npm", "run", "start"]
     env_file: .env
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       HOSTNAME: ${HOST:-0.0.0.0}
+      PORT: 3000
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3011/api}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3011}
       API_INTERNAL_URL: ${API_INTERNAL_URL:-http://backend:4000/api}
@@ -138,11 +135,11 @@ services:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3011}
     container_name: necoll-admin
     restart: unless-stopped
-    command: ["npm", "run", "start"]
     env_file: .env
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       HOSTNAME: ${HOST:-0.0.0.0}
+      PORT: 3000
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3011/api}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3011}
       API_INTERNAL_URL: ${API_INTERNAL_URL:-http://backend:4000/api}
@@ -154,14 +151,14 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 60s
+      start_period: 90s
 
   nginx:
     image: nginx:alpine
     container_name: necoll-nginx
     restart: unless-stopped
     ports:
-      - "${NGINX_PORT:-3011}:80"
+      - "${SITE_PORT:-80}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -171,18 +168,6 @@ services:
         condition: service_healthy
       admin:
         condition: service_healthy
-
-  # adminer — فقط برای محیط محلی؛ در سرور غیرفعال است.
-  # برای فعال‌سازی: کامنت‌ها را بردارید یا از docker-compose.dev.yml استفاده کنید.
-  # adminer:
-  #   image: adminer:latest
-  #   container_name: necoll-adminer
-  #   restart: unless-stopped
-  #   ports:
-  #     - "${ADMINER_PORT:-8080}:8080"
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
 
 volumes:
   postgres_data:

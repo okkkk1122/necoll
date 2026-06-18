@@ -1,16 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { routes } from '@/lib/paths';
 import AdminLayout from '@/components/AdminLayout';
 import { api } from '@/lib/api';
-import {
-  Settings,
-  Package,
-  ShoppingCart,
-  Users,
-  Puzzle,
-  TrendingUp,
-} from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 
 interface DashboardData {
   stats: {
@@ -43,11 +38,12 @@ const statusLabels: Record<string, string> = {
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     api<DashboardData>('/config/dashboard')
       .then(setData)
-      .catch(() => {})
+      .catch((err) => setError(err instanceof Error ? err.message : 'خطا در بارگذاری داشبورد'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -56,6 +52,17 @@ export default function DashboardPage() {
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin w-8 h-8 border-4 border-admin-accent border-t-transparent rounded-full" />
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className="admin-card text-center py-12">
+          <p className="text-red-500 mb-2">خطا در بارگذاری داشبورد</p>
+          <p className="text-sm text-gray-500">{error}</p>
         </div>
       </AdminLayout>
     );
@@ -72,25 +79,22 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {[
-          { label: 'تنظیمات', value: stats?.settingsCount, icon: Settings, color: 'bg-blue-500' },
-          { label: 'ماژول‌های فعال', value: stats?.activeModules, icon: Puzzle, color: 'bg-purple-500' },
-          { label: 'محصولات', value: stats?.productsCount, icon: Package, color: 'bg-green-500' },
-          { label: 'سفارشات', value: stats?.ordersCount, icon: ShoppingCart, color: 'bg-orange-500' },
-          { label: 'مشتریان', value: stats?.usersCount, icon: Users, color: 'bg-pink-500' },
-        ].map((stat, i) => {
-          const Icon = stat.icon;
-          return (
-            <div key={i} className="admin-card flex items-center gap-4">
-              <div className={`${stat.color} p-3 rounded-xl text-white`}>
-                <Icon size={24} />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{stat.value ?? 0}</p>
-                <p className="text-sm text-gray-500">{stat.label}</p>
-              </div>
+          { label: 'تنظیمات', value: stats?.settingsCount, href: routes.settings, color: 'bg-blue-500' },
+          { label: 'ماژول‌های فعال', value: stats?.activeModules, href: `${routes.settings}?tab=modules`, color: 'bg-purple-500' },
+          { label: 'محصولات', value: stats?.productsCount, href: routes.products, color: 'bg-green-500' },
+          { label: 'سفارشات', value: stats?.ordersCount, href: routes.orders, color: 'bg-orange-500' },
+          { label: 'مشتریان', value: stats?.usersCount, href: routes.users, color: 'bg-pink-500' },
+        ].map((stat, i) => (
+          <Link key={i} href={stat.href} className="admin-card flex items-center gap-4 hover:shadow-md transition-shadow">
+            <div className={`${stat.color} p-3 rounded-xl text-white w-12 h-12 flex items-center justify-center text-xl font-bold`}>
+              {stat.value ?? 0}
             </div>
-          );
-        })}
+            <div>
+              <p className="text-2xl font-bold">{stat.value ?? 0}</p>
+              <p className="text-sm text-gray-500">{stat.label}</p>
+            </div>
+          </Link>
+        ))}
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">

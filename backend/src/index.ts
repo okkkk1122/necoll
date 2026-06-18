@@ -21,6 +21,7 @@ import uploadRoutes from './routes/upload.routes';
 import blogRoutes from './routes/blog.routes';
 import reviewsRoutes from './routes/reviews.routes';
 import newsletterRoutes from './routes/newsletter.routes';
+import usersRoutes from './routes/users.routes';
 
 dotenv.config();
 
@@ -69,6 +70,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/reviews', reviewsRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/users', usersRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' });

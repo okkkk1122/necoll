@@ -1,8 +1,19 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { hyperConfig } from '../services/hyperconfig.service';
+import { authenticate, requireRole } from '../middleware/auth';
 
 const router = Router();
+
+type ContactMessage = {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+};
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -30,9 +41,21 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/messages', async (_req, res) => {
-  const messages = await hyperConfig.get('contact_messages');
+router.get('/messages', authenticate, requireRole('SUPER_ADMIN', 'ADMIN', 'MANAGER'), async (_req, res) => {
+  const messages = (await hyperConfig.get('contact_messages')) as ContactMessage[] | null;
   res.json(messages || []);
+});
+
+router.delete('/messages', authenticate, requireRole('SUPER_ADMIN', 'ADMIN'), async (_req, res) => {
+  await hyperConfig.set('contact_messages', []);
+  res.json({ success: true });
+});
+
+router.delete('/messages/:id', authenticate, requireRole('SUPER_ADMIN', 'ADMIN'), async (req, res) => {
+  const messages = ((await hyperConfig.get('contact_messages')) as ContactMessage[] | null) || [];
+  const filtered = messages.filter((m) => String(m.id) !== req.params.id);
+  await hyperConfig.set('contact_messages', filtered);
+  res.json({ success: true });
 });
 
 export default router;

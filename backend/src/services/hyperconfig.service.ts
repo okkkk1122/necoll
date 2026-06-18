@@ -5,6 +5,16 @@ import { cacheDel, cacheGet, cacheSet } from '../lib/redis';
 const CONFIG_CACHE_PREFIX = 'hyperconfig:';
 const CONFIG_CACHE_TTL = 60;
 
+/** SYSTEM keys safe to expose on the storefront */
+const PUBLIC_SYSTEM_KEYS = new Set(['site_name', 'currency']);
+
+/** SYSTEM keys that must never be exposed publicly */
+export const SECRET_CONFIG_KEYS = new Set([
+  'openai_api_key',
+  'zarinpal_merchant',
+  'payment_gateways',
+]);
+
 export interface ConfigValue {
   key: string;
   value: unknown;
@@ -107,7 +117,14 @@ export class HyperConfigService {
     const config: Record<string, unknown> = {};
 
     for (const setting of settings) {
+      if (!setting.isActive) continue;
+
       if (setting.layer !== ConfigLayer.SYSTEM) {
+        config[setting.key] = setting.value;
+        continue;
+      }
+
+      if (PUBLIC_SYSTEM_KEYS.has(setting.key)) {
         config[setting.key] = setting.value;
       }
     }

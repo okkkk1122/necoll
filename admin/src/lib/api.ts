@@ -1,3 +1,5 @@
+import { adminUrl, routes } from '@/lib/paths';
+
 const API_URL = process.env.API_INTERNAL_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3011/api';
 
 function getToken(): string | null {
@@ -23,7 +25,7 @@ export async function api<T>(
 
   if (res.status === 401 && typeof window !== 'undefined') {
     localStorage.removeItem('admin_token');
-    window.location.href = '/admin/login';
+    window.location.href = adminUrl(routes.login);
     throw new Error('Unauthorized');
   }
 
@@ -37,8 +39,10 @@ export async function api<T>(
 
 export function setToken(token: string) {
   localStorage.setItem('admin_token', token);
+  document.cookie = `admin_token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
 }
 
 export function clearToken() {
   localStorage.removeItem('admin_token');
+  document.cookie = 'admin_token=; path=/; max-age=0';
 }
