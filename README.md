@@ -145,3 +145,29 @@ docker compose up -d
 docker compose exec backend npx prisma db push
 docker compose exec backend npm run db:seed
 ```
+
+**ChunkLoadError / صفحه سفید در Firefox (necoll.ir):**
+
+معمولاً مسیر `/_next/static/...` روی سرور به **ادمین** می‌رود به‌جای **فروشگاه**. HTML فروشگاه لود می‌شود ولی فایل‌های JS با 404 مواجه می‌شوند.
+
+```bash
+# تست روی سرور (باید 200 باشد، نه 404):
+curl -I https://necoll.ir/_next/static/chunks/webpack-e5badf1716dd6f5a.js
+```
+
+**راه‌حل:** در Nginx سرور (جلوی Docker) حتماً `/_next/` را به کانتینر **store** بفرستید. نمونه: `nginx/host-reverse-proxy.example.conf`
+
+یا همهٔ ترافیک را فقط به nginx داخل Docker بدهید (`SITE_PORT=80` و یک `proxy_pass` برای کل دامنه).
+
+بعد از اصلاح `.env` برای دامنه واقعی:
+```env
+SITE_URL=https://necoll.ir
+CORS_ORIGIN=https://necoll.ir
+NEXT_PUBLIC_SITE_URL=https://necoll.ir
+NEXT_PUBLIC_API_URL=https://necoll.ir/api
+SITE_PORT=80
+```
+```bash
+docker compose build --no-cache store admin
+docker compose up -d
+```
