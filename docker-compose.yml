@@ -6,7 +6,7 @@ services:
     env_file: .env
     environment:
       POSTGRES_USER: ${DB_USER:-necoll}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-necoll_secret}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Aa@545544}
       POSTGRES_DB: ${DB_NAME:-necoll_db}
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -73,7 +73,7 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       HOST: ${HOST:-0.0.0.0}
       PORT: ${BACKEND_PORT:-4000}
-      DATABASE_URL: postgresql://${DB_USER:-necoll}:${DB_PASSWORD:-necoll_secret}@postgres:5432/${DB_NAME:-necoll_db}
+      DATABASE_URL: postgresql://${DB_USER:-necoll}:${DB_PASSWORD:-Aa@545544}@postgres:5432/${DB_NAME:-necoll_db}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
       JWT_SECRET: ${JWT_SECRET:-necoll_jwt_super_secret_change_in_production}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio}

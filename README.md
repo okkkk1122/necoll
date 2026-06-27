@@ -48,7 +48,7 @@ docker compose up --build -d
 System: PostgreSQL
 Server: postgres
 Username: necoll
-Password: necoll_secret
+Password: Aa@545544
 Database: necoll_db
 ```
 
