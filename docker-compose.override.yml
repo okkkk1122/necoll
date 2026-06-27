@@ -1,0 +1,65 @@
+# Production override — فقط روی سرور با deploy استفاده شود:
+# docker compose -f docker-compose.yml -f docker-compose.override.yml --env-file .env.production up -d
+
+services:
+  postgres:
+    env_file: .env.production
+    networks:
+      - necoll-network
+
+  redis:
+    networks:
+      - necoll-network
+
+  minio:
+    env_file: .env.production
+    networks:
+      - necoll-network
+
+  minio-init:
+    env_file: .env.production
+    networks:
+      - necoll-network
+
+  backend:
+    env_file: .env.production
+    networks:
+      - necoll-network
+
+  store:
+    env_file: .env.production
+    build:
+      context: ./store
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+    networks:
+      - necoll-network
+
+  admin:
+    env_file: .env.production
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+    networks:
+      - necoll-network
+
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.production.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/locations.conf:/etc/nginx/locations.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - necoll-network
+
+networks:
+  necoll-network:
+    name: necoll-network
+    driver: bridge

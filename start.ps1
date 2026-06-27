@@ -17,16 +17,20 @@ try {
 
 Set-Location $PSScriptRoot
 
+if (-not (Test-Path ".env")) {
+    Copy-Item ".env.example" ".env"
+    Write-Host "[OK] Created .env from .env.example" -ForegroundColor Green
+}
+
 Write-Host ""
 Write-Host "Building and starting all services..." -ForegroundColor Yellow
 Write-Host "This may take 5-10 minutes on first run." -ForegroundColor Gray
 Write-Host ""
 
-docker compose up --build -d
+docker compose -f docker-compose.yml --env-file .env up --build -d
 
 if ($LASTEXITCODE -eq 0) {
-    # Refresh nginx upstream DNS after all containers are up
-    docker compose restart nginx | Out-Null
+    docker compose -f docker-compose.yml restart nginx | Out-Null
     Write-Host ""
     Write-Host "========================================" -ForegroundColor Green
     Write-Host "  Necoll is ready!" -ForegroundColor Green

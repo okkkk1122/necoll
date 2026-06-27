@@ -10,8 +10,13 @@ fi
 
 cd "$(dirname "$0")"
 
+if [ ! -f .env ]; then
+  cp .env.example .env
+  echo "[OK] Created .env from .env.example"
+fi
+
 echo "Building and starting all services..."
-docker compose up --build -d
+docker compose -f docker-compose.yml --env-file .env up --build -d
 
 if [ $? -eq 0 ]; then
   echo ""

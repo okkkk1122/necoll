@@ -16,6 +16,8 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    networks:
+      - necoll-network
 
   redis:
     image: redis:7-alpine
@@ -28,6 +30,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    networks:
+      - necoll-network
 
   minio:
     image: minio/minio:latest
@@ -40,6 +44,8 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-necoll_minio_secret}
     volumes:
       - minio_data:/data
+    networks:
+      - necoll-network
 
   minio-init:
     image: minio/mc:latest
@@ -61,6 +67,8 @@ services:
       echo 'MinIO bucket ready';
       "
     restart: "no"
+    networks:
+      - necoll-network
 
   backend:
     build:
@@ -73,7 +81,7 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       HOST: ${HOST:-0.0.0.0}
       PORT: ${BACKEND_PORT:-4000}
-      DATABASE_URL: postgresql://${DB_USER:-necoll}:${DB_PASSWORD:-Aa@545544}@postgres:5432/${DB_NAME:-necoll_db}
+      DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
       JWT_SECRET: ${JWT_SECRET:-necoll_jwt_super_secret_change_in_production}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio}
@@ -81,7 +89,7 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-necoll_minio}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-necoll_minio_secret}
       MINIO_BUCKET: ${MINIO_BUCKET:-necoll-uploads}
-      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL:-http://localhost/uploads}
+      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL:-http://localhost:3011/uploads}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3011}
       SITE_URL: ${SITE_URL:-http://localhost:3011}
       PRISMA_ENGINES_MIRROR: ${PRISMA_ENGINES_MIRROR:-}
@@ -98,6 +106,8 @@ services:
       timeout: 5s
       retries: 10
       start_period: 120s
+    networks:
+      - necoll-network
 
   store:
     build:
@@ -125,6 +135,8 @@ services:
       timeout: 5s
       retries: 15
       start_period: 90s
+    networks:
+      - necoll-network
 
   admin:
     build:
@@ -152,15 +164,18 @@ services:
       timeout: 5s
       retries: 10
       start_period: 90s
+    networks:
+      - necoll-network
 
   nginx:
     image: nginx:alpine
     container_name: necoll-nginx
     restart: unless-stopped
     ports:
-      - "${SITE_PORT:-80}:80"
+      - "${SITE_PORT:-3011}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/locations.conf:/etc/nginx/locations.conf:ro
     depends_on:
       backend:
         condition: service_healthy
@@ -168,8 +183,15 @@ services:
         condition: service_healthy
       admin:
         condition: service_healthy
+    networks:
+      - necoll-network
 
 volumes:
   postgres_data:
   redis_data:
   minio_data:
+
+networks:
+  necoll-network:
+    name: necoll-network
+    driver: bridge
