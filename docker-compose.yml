@@ -171,8 +171,6 @@ services:
     image: nginx:alpine
     container_name: necoll-nginx
     restart: unless-stopped
-    ports:
-      - "${SITE_PORT:-3011}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/locations.conf:/etc/nginx/locations.conf:ro
@@ -185,13 +183,24 @@ services:
         condition: service_healthy
     networks:
       - necoll-network
+      - dokploy-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
+    name: necoll_postgres_data
   redis_data:
+    name: necoll_redis_data
   minio_data:
+    name: necoll_minio_data
 
 networks:
   necoll-network:
     name: necoll-network
     driver: bridge
+  dokploy-network:
+    external: true
