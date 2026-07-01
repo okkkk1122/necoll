@@ -2,15 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-body: IranianSans, Tahoma, sans-serif;
+  --font-heading: Yekan, IranianSans, sans-serif;
+  --font-cta: Farhang, Yekan, IranianSans, sans-serif;
+}
+
 html {
   direction: rtl;
 }
 
 body {
-  font-family: var(--font-body, IRANSansX, Tahoma, sans-serif);
+  font-family: var(--font-body);
   background-color: #F1F5F9;
 }
 
 h1, h2, h3 {
-  font-family: var(--font-heading, Kalameh, IRANSansX, sans-serif);
+  font-family: var(--font-heading);
+}
+
+button,
+.btn,
+[type='submit'] {
+  font-family: var(--font-cta);
 }

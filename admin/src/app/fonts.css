@@ -1,104 +1,49 @@
-/* ═══ نکول Typography System — Self-hosted WOFF2 ═══ */
-
-/* کلمه — تیترها، بنر، عناوین اصلی */
-@font-face {
-  font-family: Kalameh;
-  src: url('/fonts/kalameh/KalamehWeb(FaNum)-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
+/* ═══ Typography — ایران‌سنس (بدنه) + یکان (تیتر) + فرهنگ (CTA) ═══ */
 
 @font-face {
-  font-family: Kalameh;
-  src: url('/fonts/kalameh/KalamehWeb(FaNum)-ExtraBold.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
-
-@font-face {
-  font-family: Kalameh;
-  src: url('/fonts/kalameh/KalamehWeb(FaNum)-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
-
-/* دانا — نام محصول، CTA، قیمت */
-@font-face {
-  font-family: Dana;
-  src: url('/fonts/dana/DanaFaNum-Light.woff2') format('woff2');
+  font-family: IranianSans;
+  src: url('/fonts/site/IranianSans-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
 }
 
 @font-face {
-  font-family: Dana;
-  src: url('/fonts/dana/DanaFaNum-Medium.woff2') format('woff2');
+  font-family: Yekan;
+  src: url('/fonts/site/Yekan-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Yekan;
+  src: url('/fonts/site/Yekan-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Farhang;
+  src: url('/fonts/site/FarhangFaNum-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
 }
 
 @font-face {
-  font-family: Dana;
-  src: url('/fonts/dana/DanaFaNum-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
-
-@font-face {
-  font-family: Dana;
-  src: url('/fonts/dana/DanaFaNum-ExtraBold.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
-
-/* یکان‌بخ — منو و دسته‌بندی */
-@font-face {
-  font-family: YekanBakh;
-  src: url('/fonts/yekan-bakh/YekanBakhFaNum-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
-
-@font-face {
-  font-family: YekanBakh;
-  src: url('/fonts/yekan-bakh/YekanBakhFaNum-SemiBold.woff2') format('woff2');
+  font-family: Farhang;
+  src: url('/fonts/site/FarhangFaNum-DemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
-}
-
-/* ایران‌سنس X — متن بدنه، توضیحات، بلاگ */
-@font-face {
-  font-family: IRANSansX;
-  src: url('/fonts/iransansx/IRANSansX-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
 }
 
 @font-face {
-  font-family: IRANSansX;
-  src: url('/fonts/iransansx/IRANSansX-Bold.woff2') format('woff2');
+  font-family: Farhang;
+  src: url('/fonts/site/FarhangFaNum-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0030-0039;
 }

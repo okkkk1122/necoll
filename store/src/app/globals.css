@@ -46,12 +46,13 @@
   --color-warning: #F59E0B;
   --color-error: #EF6B6B;
 
-  --font-body: IRANSansX, Tahoma, sans-serif;
-  --font-heading: Kalameh, IRANSansX, sans-serif;
-  --font-product: Dana, IRANSansX, sans-serif;
-  --font-nav: YekanBakh, IRANSansX, sans-serif;
-  --font-price: Dana, YekanBakh, IRANSansX, sans-serif;
-  --font-editorial: Dana, IRANSansX, sans-serif;
+  --font-body: IranianSans, Tahoma, sans-serif;
+  --font-heading: Yekan, IranianSans, sans-serif;
+  --font-product: Yekan, IranianSans, sans-serif;
+  --font-nav: Yekan, IranianSans, sans-serif;
+  --font-price: IranianSans, Yekan, sans-serif;
+  --font-editorial: IranianSans, Tahoma, sans-serif;
+  --font-cta: Farhang, Yekan, IranianSans, sans-serif;
 
   --font-family: var(--font-body);
   --font-display: var(--font-heading);
@@ -187,6 +188,10 @@ h3 { font-size: var(--font-size-h3); font-family: var(--font-heading); font-weig
     letter-spacing: 0.02em;
   }
 
+  .font-cta {
+    font-family: var(--font-cta);
+  }
+
   .section-title {
     @apply text-xl sm:text-2xl md:text-3xl font-bold tracking-tight;
     font-family: var(--font-heading);
@@ -221,7 +226,7 @@ h3 { font-size: var(--font-size-h3); font-family: var(--font-heading); font-weig
 
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-colors duration-200;
-    font-family: var(--font-product);
+    font-family: var(--font-cta);
     background: var(--color-blue-deep);
     color: var(--color-button-text);
     border-radius: var(--border-radius-sm);
@@ -233,7 +238,7 @@ h3 { font-size: var(--font-size-h3); font-family: var(--font-heading); font-weig
 
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 font-bold text-base transition-all duration-300 border tracking-wide;
-    font-family: var(--font-product);
+    font-family: var(--font-cta);
     border-color: var(--color-blue-deep);
     color: var(--color-blue-deep);
     background: transparent;

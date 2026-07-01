@@ -6,12 +6,14 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-body)', 'Tahoma', 'sans-serif'],
-        heading: ['var(--font-heading)', 'Kalameh', 'sans-serif'],
-        product: ['var(--font-product)', 'Dana', 'sans-serif'],
-        nav: ['var(--font-nav)', 'YekanBakh', 'sans-serif'],
-        price: ['var(--font-price)', 'Dana', 'sans-serif'],
-        editorial: ['var(--font-editorial)', 'Dana', 'sans-serif'],
-        display: ['var(--font-heading)', 'Kalameh', 'sans-serif'],
+        body: ['var(--font-body)', 'Tahoma', 'sans-serif'],
+        heading: ['var(--font-heading)', 'IranianSans', 'sans-serif'],
+        product: ['var(--font-product)', 'IranianSans', 'sans-serif'],
+        nav: ['var(--font-nav)', 'Yekan', 'sans-serif'],
+        price: ['var(--font-price)', 'IranianSans', 'sans-serif'],
+        editorial: ['var(--font-editorial)', 'IranianSans', 'sans-serif'],
+        cta: ['var(--font-cta)', 'Farhang', 'Yekan', 'sans-serif'],
+        display: ['var(--font-heading)', 'Yekan', 'sans-serif'],
       },
       colors: {
         primary: 'var(--color-primary)',

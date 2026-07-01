@@ -4,6 +4,12 @@ const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-body)', 'Tahoma', 'sans-serif'],
+        body: ['var(--font-body)', 'Tahoma', 'sans-serif'],
+        heading: ['var(--font-heading)', 'Yekan', 'sans-serif'],
+        cta: ['var(--font-cta)', 'Farhang', 'Yekan', 'sans-serif'],
+      },
       colors: {
         admin: {
           primary: '#1B2A3E',

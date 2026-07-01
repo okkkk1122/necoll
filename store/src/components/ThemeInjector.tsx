@@ -83,6 +83,9 @@ export default function ThemeInjector() {
     if (typography.fontEditorial) {
       root.style.setProperty('--font-editorial', typography.fontEditorial as string);
     }
+    if (typography.fontCta) {
+      root.style.setProperty('--font-cta', typography.fontCta as string);
+    }
     if (typography.fontSizeBase) {
       root.style.setProperty('--font-size-base', typography.fontSizeBase as string);
       root.style.fontSize = typography.fontSizeBase as string;
